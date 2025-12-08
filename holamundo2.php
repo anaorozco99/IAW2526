@@ -8,4 +8,6 @@
  $mensaje2 = " desde PHP";
 
  echo $mensaje1 . $mensaje2;
+ echo "<br>";
+ echo "$mensaje1 $mensaje2";
 ?>
