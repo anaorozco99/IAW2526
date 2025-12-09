@@ -1,0 +1,21 @@
+PHP
+1. fechahora.php. Realiza un script PHP que muestre la fecha y la hora.
+¿Serías capaz de mostrarla en español?
+
+2. diasemana.php. Realiza un script PHP que utilizando Date obtenga el día de la semana en el que se encuentra el servidor y en función del mismo muestre un mensaje diferente según sea lunes, martes, miércoles, etc (utiliza switch).
+
+3. feria.php. Mira cuándo es la próxima Feria de Sevilla. Realiza un script PHP que utilizando date muestre al usuario cuántos días quedan para que comience la Feria.
+
+4. while.php. Utilizando una estructura repetitiva while implementa un script PHP que se encargue de crear una tabla en HTML con todos los números del 1 al 10 dispuestos en una columna.
+
+5. for.php. Modifica el ejercicio anterior para realizar el mismo script pero utilizando for y disponiendo los números en una fila.
+
+6. foreach1.php. Crea un array con 4 o 5 refranes. Utiliza foreach para mostrar todos los refranes en pantalla cada uno de ellos en un párrafo diferente.
+
+7. foreach2.php. PHP tiene la posibilidad de utilizar lo que se conocen como arrays asociativos(clic aquí para más información). Realiza un script en PHP que ilustre el uso de arrays asociativos mediante el uso de parejas “palabraEnEspañol” => “PalabraEnInglés”. Crea el array con 5 palabras, sus respectivas traducciones y muestra el total de las palabras que contiene el array asociativo usando una función que las cuente así como las mismas con su traducción al lado.
+
+8. sort.php. Realiza un script que dado un array de palabras lo presente en pantalla ordenado lexicograficamente.
+
+9. superglobales.php. Realiza un script en PHP que muestre al usuario la dirección IP desde la que se está conectando, el navegador que utiliza y la página previa que lo ha referido. Utiliza la variable superglobal $_SERVER.
+
+10. foreach3.php. Crea un script en PHP que recorre un array de tweets y formatea un documento HTML al usuario mostrando las distintas frases con una apariencia similar a la de Twitter. En su ejecución define una función que genere el código necesario para mostrar el tweet.

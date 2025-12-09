@@ -1,0 +1,23 @@
+PHP
+1. info.php. Realiza un script PHP que muestre la información de configuración del servidor utilizando la función phpinfo().
+¿De qué maneras podemos comprobar que el código se ejecuta correctamente?
+
+2. holamundo.php. Realiza un script PHP que utilizando la función echo o print muestre un mensaje en pantalla con la célebre frase “Hola mundo desde PHP”.
+
+3. holamundo2.php. Modifica el script anterior para utilizar variables de tipo cadena; esto es, una variable contiene por ejemplo “Hola mundo”, otra “ desde PHP”. El resultado debe ser idéntico al anterior. Introduce el uso de comentarios en tus scripts.
+
+4. holamundo3.php. Podemos intercalar nuestros scripts PHP dentro del código HTML. Modifica el código anterior para que el cliente web reciba el mensaje en un encabezado de nivel 1 en el interior de un documento realizado con Bootstrap.
+
+5. tiposdedatos.php. Realiza un script en PHP que muestre información de variables de distintos tipos de datos: enteros, reales, cadenas, booleanas y arrays. Muestra los datos utilizando la función var_dump.
+
+6. operadoresNumericos.php. Realiza un script en PHP donde visualices cómo utilizar diferentes operadores aritméticos con variables de tipos numéricos.
+
+7. operadoresCadena.php. Realiza un script en PHP donde visualices cómo utilizar diferentes operadores con variables de tipo cadena.
+
+8. navegador.php. Realiza un script que muestre en pantalla el navegador que está utilizando el usuario. Investiga variables superglobales en el manual de PHP.
+
+9. cuadradoColor.php. Investiga la función rand de PHP y realiza un script que cada vez que se cargue muestre una caja 300x300 de color aleatorio.
+
+10. emoticono.php. Utilizando la función rand de PHP crea un script que muestre un emoticono diferente cada vez que se cargue. Ten en cuenta que podemos escribir en HTML los emoticonos haciendo uso de su codificación Unicode (números entre 128512 y 128586). Investiga en W3Schools sobre cómo codificarlos.
+
+11. imagenAleatoria.php. Realiza un script que cada vez que se cargue muestre una imagen aleatoria contenida en el servidor. Utilice arrays.

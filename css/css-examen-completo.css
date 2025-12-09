@@ -1,0 +1,446 @@
+/* ============================================
+   RESET Y ESTILOS GENERALES
+   ============================================ */
+* {
+    margin: 0; /* Elimina márgenes por defecto de todos los elementos */
+    padding: 0; /* Elimina padding por defecto de todos los elementos */
+    box-sizing: border-box; /* El padding y border se incluyen en el width/height total */
+}
+
+body {
+    font-family: Arial, sans-serif; /* Tipografía base */
+    line-height: 1.6; /* Altura de línea para mejor legibilidad */
+    color: #333; /* Color de texto gris oscuro */
+    background-color: #f4f4f4; /* Fondo gris claro */
+}
+
+.container {
+    max-width: 1200px; /* Ancho máximo del contenedor */
+    margin: 0 auto; /* Centra horizontalmente */
+    padding: 20px; /* Espaciado interno */
+}
+
+/* ============================================
+   FORMULARIOS
+   ============================================ */
+.formulario {
+    background: #fff; /* Fondo blanco */
+    padding: 30px; /* Espaciado interno */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1); /* Sombra suave */
+    max-width: 600px; /* Ancho máximo del formulario */
+    margin: 20px auto; /* Centra el formulario con margen superior/inferior */
+}
+
+.formulario h2 {
+    margin-bottom: 20px; /* Espacio debajo del título */
+    color: #2c3e50; /* Color azul oscuro */
+    text-align: center; /* Centra el título */
+}
+
+.grupo-campo {
+    margin-bottom: 20px; /* Espacio entre grupos de campos */
+}
+
+.grupo-campo label {
+    display: block; /* Hace que el label ocupe toda la línea */
+    margin-bottom: 5px; /* Espacio entre label e input */
+    font-weight: bold; /* Texto en negrita */
+    color: #555; /* Color gris medio */
+}
+
+.grupo-campo input[type="text"],
+.grupo-campo input[type="email"],
+.grupo-campo input[type="password"],
+.grupo-campo input[type="number"],
+.grupo-campo input[type="date"],
+.grupo-campo input[type="tel"],
+.grupo-campo select,
+.grupo-campo textarea {
+    width: 100%; /* Ocupa todo el ancho disponible */
+    padding: 10px; /* Espaciado interno */
+    border: 1px solid #ddd; /* Borde gris claro */
+    border-radius: 4px; /* Bordes ligeramente redondeados */
+    font-size: 14px; /* Tamaño de fuente */
+    transition: border-color 0.3s ease; /* Transición suave del borde */
+}
+
+.grupo-campo input:focus,
+.grupo-campo select:focus,
+.grupo-campo textarea:focus {
+    outline: none; /* Quita el outline por defecto del navegador */
+    border-color: #3498db; /* Cambia el color del borde a azul al enfocar */
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3); /* Añade sombra azul suave */
+}
+
+.grupo-campo textarea {
+    resize: vertical; /* Permite redimensionar solo verticalmente */
+    min-height: 100px; /* Altura mínima */
+}
+
+/* Checkboxes y Radio buttons */
+.grupo-opciones {
+    margin-bottom: 20px; /* Espacio inferior */
+}
+
+.grupo-opciones label {
+    display: inline-block; /* Mantiene label e input en la misma línea */
+    margin-right: 15px; /* Espacio a la derecha */
+    margin-bottom: 10px; /* Espacio inferior */
+    cursor: pointer; /* Cambia cursor a pointer */
+}
+
+.grupo-opciones input[type="checkbox"],
+.grupo-opciones input[type="radio"] {
+    margin-right: 5px; /* Espacio entre input y texto */
+    cursor: pointer; /* Cambia cursor a pointer */
+}
+
+/* Mensajes de error en formularios */
+.error {
+    color: #e74c3c; /* Color rojo */
+    font-size: 12px; /* Tamaño pequeño */
+    margin-top: 5px; /* Espacio superior */
+    display: block; /* Ocupa toda la línea */
+}
+
+.campo-error {
+    border-color: #e74c3c !important; /* Borde rojo para campos con error */
+}
+
+/* ============================================
+   BOTONES
+   ============================================ */
+.btn {
+    display: inline-block; /* Permite aplicar padding y margin */
+    padding: 12px 24px; /* Espaciado interno */
+    border: none; /* Sin borde */
+    border-radius: 4px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor pointer */
+    font-size: 16px; /* Tamaño de fuente */
+    text-decoration: none; /* Sin subrayado si es un enlace */
+    transition: all 0.3s ease; /* Transición suave de todas las propiedades */
+    text-align: center; /* Centra el texto */
+}
+
+.btn-primario {
+    background-color: #3498db; /* Fondo azul */
+    color: white; /* Texto blanco */
+}
+
+.btn-primario:hover {
+    background-color: #2980b9; /* Azul más oscuro al pasar el mouse */
+    transform: translateY(-2px); /* Mueve el botón 2px hacia arriba */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Añade sombra */
+}
+
+.btn-secundario {
+    background-color: #95a5a6; /* Fondo gris */
+    color: white; /* Texto blanco */
+}
+
+.btn-secundario:hover {
+    background-color: #7f8c8d; /* Gris más oscuro al hover */
+}
+
+.btn-success {
+    background-color: #27ae60; /* Fondo verde */
+    color: white; /* Texto blanco */
+}
+
+.btn-success:hover {
+    background-color: #229954; /* Verde más oscuro al hover */
+}
+
+.btn-danger {
+    background-color: #e74c3c; /* Fondo rojo */
+    color: white; /* Texto blanco */
+}
+
+.btn-danger:hover {
+    background-color: #c0392b; /* Rojo más oscuro al hover */
+}
+
+.btn-block {
+    width: 100%; /* Ocupa todo el ancho disponible */
+    display: block; /* Se comporta como elemento de bloque */
+}
+
+/* ============================================
+   TABLAS
+   ============================================ */
+.tabla-contenedor {
+    overflow-x: auto; /* Permite scroll horizontal si la tabla es muy ancha */
+    margin: 20px 0; /* Margen vertical */
+}
+
+.tabla {
+    width: 100%; /* Ocupa todo el ancho */
+    border-collapse: collapse; /* Colapsa los bordes de las celdas */
+    background: #fff; /* Fondo blanco */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Sombra suave */
+}
+
+.tabla thead {
+    background-color: #34495e; /* Fondo gris oscuro para encabezados */
+    color: white; /* Texto blanco */
+}
+
+.tabla th,
+.tabla td {
+    padding: 12px 15px; /* Espaciado interno de celdas */
+    text-align: left; /* Alinea texto a la izquierda */
+    border-bottom: 1px solid #ddd; /* Borde inferior gris claro */
+}
+
+.tabla tbody tr:hover {
+    background-color: #f5f5f5; /* Fondo gris muy claro al pasar el mouse */
+    cursor: pointer; /* Cursor pointer */
+}
+
+.tabla tbody tr:nth-child(even) {
+    background-color: #f9f9f9; /* Fondo alternado para filas pares (efecto cebra) */
+}
+
+/* ============================================
+   TARJETAS (CARDS)
+   ============================================ */
+.tarjeta {
+    background: #fff; /* Fondo blanco */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Sombra suave */
+    padding: 20px; /* Espaciado interno */
+    margin-bottom: 20px; /* Espacio inferior */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transiciones suaves */
+}
+
+.tarjeta:hover {
+    transform: translateY(-5px); /* Eleva la tarjeta 5px al pasar el mouse */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2); /* Sombra más pronunciada */
+}
+
+.tarjeta-titulo {
+    font-size: 20px; /* Tamaño de fuente */
+    color: #2c3e50; /* Color azul oscuro */
+    margin-bottom: 10px; /* Espacio inferior */
+}
+
+.tarjeta-contenido {
+    color: #666; /* Color gris */
+    line-height: 1.6; /* Altura de línea */
+}
+
+/* ============================================
+   ALERTAS Y MENSAJES
+   ============================================ */
+.alerta {
+    padding: 15px 20px; /* Espaciado interno */
+    border-radius: 4px; /* Bordes redondeados */
+    margin-bottom: 20px; /* Espacio inferior */
+    border-left: 4px solid; /* Borde izquierdo grueso */
+}
+
+.alerta-success {
+    background-color: #d4edda; /* Fondo verde claro */
+    border-color: #28a745; /* Borde verde */
+    color: #155724; /* Texto verde oscuro */
+}
+
+.alerta-info {
+    background-color: #d1ecf1; /* Fondo azul claro */
+    border-color: #17a2b8; /* Borde azul */
+    color: #0c5460; /* Texto azul oscuro */
+}
+
+.alerta-warning {
+    background-color: #fff3cd; /* Fondo amarillo claro */
+    border-color: #ffc107; /* Borde amarillo */
+    color: #856404; /* Texto marrón oscuro */
+}
+
+.alerta-danger {
+    background-color: #f8d7da; /* Fondo rojo claro */
+    border-color: #dc3545; /* Borde rojo */
+    color: #721c24; /* Texto rojo oscuro */
+}
+
+/* ============================================
+   NAVEGACIÓN
+   ============================================ */
+.navbar {
+    background-color: #2c3e50; /* Fondo gris oscuro */
+    padding: 15px 0; /* Espaciado interno vertical */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra inferior */
+}
+
+.navbar ul {
+    list-style: none; /* Quita los bullets de la lista */
+    display: flex; /* Organiza elementos horizontalmente */
+    justify-content: center; /* Centra los elementos */
+    flex-wrap: wrap; /* Permite que elementos salten de línea */
+}
+
+.navbar li {
+    margin: 0 15px; /* Espacio horizontal entre elementos */
+}
+
+.navbar a {
+    color: white; /* Texto blanco */
+    text-decoration: none; /* Sin subrayado */
+    padding: 8px 15px; /* Espaciado interno */
+    display: block; /* Se comporta como bloque */
+    border-radius: 4px; /* Bordes redondeados */
+    transition: background-color 0.3s ease; /* Transición suave del fondo */
+}
+
+.navbar a:hover,
+.navbar a.activo {
+    background-color: #34495e; /* Fondo ligeramente más claro al hover o activo */
+}
+
+/* ============================================
+   GRID SYSTEM (SISTEMA DE REJILLA)
+   ============================================ */
+.fila {
+    display: flex; /* Activa flexbox */
+    flex-wrap: wrap; /* Permite que columnas salten de línea */
+    margin: 0 -10px; /* Margen negativo para compensar padding de columnas */
+}
+
+.columna {
+    padding: 0 10px; /* Espaciado interno lateral */
+    margin-bottom: 20px; /* Espacio inferior */
+}
+
+.col-1 { width: 8.33%; } /* Columna de 1/12 del ancho */
+.col-2 { width: 16.66%; } /* Columna de 2/12 del ancho */
+.col-3 { width: 25%; } /* Columna de 3/12 del ancho (1/4) */
+.col-4 { width: 33.33%; } /* Columna de 4/12 del ancho (1/3) */
+.col-6 { width: 50%; } /* Columna de 6/12 del ancho (1/2) */
+.col-8 { width: 66.66%; } /* Columna de 8/12 del ancho (2/3) */
+.col-12 { width: 100%; } /* Columna de ancho completo */
+
+/* ============================================
+   LISTAS
+   ============================================ */
+.lista-limpia {
+    list-style: none; /* Quita los bullets */
+    padding: 0; /* Quita padding */
+}
+
+.lista-horizontal {
+    display: flex; /* Organiza elementos horizontalmente */
+    gap: 15px; /* Espacio entre elementos */
+}
+
+.lista-con-estilo li {
+    padding: 10px; /* Espaciado interno */
+    border-bottom: 1px solid #eee; /* Borde inferior */
+}
+
+.lista-con-estilo li:last-child {
+    border-bottom: none; /* Quita borde del último elemento */
+}
+
+/* ============================================
+   UTILIDADES GENERALES
+   ============================================ */
+.text-center {
+    text-align: center; /* Centra el texto */
+}
+
+.text-right {
+    text-align: right; /* Alinea el texto a la derecha */
+}
+
+.text-left {
+    text-align: left; /* Alinea el texto a la izquierda */
+}
+
+.mt-10 { margin-top: 10px; } /* Margen superior de 10px */
+.mt-20 { margin-top: 20px; } /* Margen superior de 20px */
+.mt-30 { margin-top: 30px; } /* Margen superior de 30px */
+
+.mb-10 { margin-bottom: 10px; } /* Margen inferior de 10px */
+.mb-20 { margin-bottom: 20px; } /* Margen inferior de 20px */
+.mb-30 { margin-bottom: 30px; } /* Margen inferior de 30px */
+
+.p-10 { padding: 10px; } /* Padding de 10px */
+.p-20 { padding: 20px; } /* Padding de 20px */
+.p-30 { padding: 30px; } /* Padding de 30px */
+
+.oculto {
+    display: none; /* Oculta el elemento */
+}
+
+.visible {
+    display: block; /* Muestra el elemento */
+}
+
+/* ============================================
+   BADGES Y ETIQUETAS
+   ============================================ */
+.badge {
+    display: inline-block; /* Permite aplicar padding */
+    padding: 4px 8px; /* Espaciado interno pequeño */
+    font-size: 12px; /* Tamaño de fuente pequeño */
+    border-radius: 12px; /* Bordes muy redondeados */
+    font-weight: bold; /* Texto en negrita */
+}
+
+.badge-success {
+    background-color: #28a745; /* Fondo verde */
+    color: white; /* Texto blanco */
+}
+
+.badge-danger {
+    background-color: #dc3545; /* Fondo rojo */
+    color: white; /* Texto blanco */
+}
+
+.badge-warning {
+    background-color: #ffc107; /* Fondo amarillo */
+    color: #333; /* Texto oscuro */
+}
+
+.badge-info {
+    background-color: #17a2b8; /* Fondo azul */
+    color: white; /* Texto blanco */
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 768px) { /* Estilos para tablets y móviles */
+    .col-1, .col-2, .col-3, .col-4, .col-6, .col-8 {
+        width: 100%; /* Todas las columnas ocupan el 100% en móviles */
+    }
+    
+    .navbar ul {
+        flex-direction: column; /* Apila elementos verticalmente */
+        align-items: center; /* Centra elementos */
+    }
+    
+    .navbar li {
+        margin: 5px 0; /* Margen vertical entre elementos */
+    }
+    
+    .formulario {
+        padding: 20px; /* Reduce padding en móviles */
+    }
+    
+    .tabla-contenedor {
+        font-size: 14px; /* Reduce tamaño de fuente en tablas */
+    }
+}
+
+@media (max-width: 480px) { /* Estilos para móviles pequeños */
+    .btn {
+        width: 100%; /* Botones ocupan todo el ancho */
+        margin-bottom: 10px; /* Espacio entre botones */
+    }
+    
+    .container {
+        padding: 10px; /* Reduce padding del contenedor */
+    }
+}
