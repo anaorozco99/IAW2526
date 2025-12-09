@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>5 Selectores CSS Básicos</title>
+<style>
+
+/* ============================================
+   1. SELECTOR POR ETIQUETA
+   Afecta a TODAS las etiquetas <p>
+   ============================================ */
+p {
+    color: blue; /* Color del texto azul */
+    font-size: 16px; /* Tamaño de letra */
+}
+
+/* ============================================
+   2. SELECTOR POR CLASE (con punto .)
+   Afecta solo a elementos con class="destacado"
+   ============================================ */
+.destacado {
+    background-color: yellow; /* Fondo amarillo */
+    font-weight: bold; /* Texto en negrita */
+}
+
+/* ============================================
+   3. SELECTOR POR ID (con #)
+   Afecta solo al elemento con id="principal"
+   ============================================ */
+#principal {
+    text-align: center; /* Texto centrado */
+    color: red; /* Color rojo */
+}
+
+/* ============================================
+   4. SELECTOR DESCENDIENTE
+   Afecta a <span> que están dentro de <div>
+   ============================================ */
+div span {
+    color: green; /* Color verde */
+    text-decoration: underline; /* Subrayado */
+}
+
+/* ============================================
+   5. SELECTOR HOVER (pseudo-clase)
+   Afecta a <a> cuando pasas el mouse encima
+   ============================================ */
+a:hover {
+    color: orange; /* Cambia a naranja al pasar mouse */
+    font-size: 20px; /* Aumenta tamaño */
+}
+
+</style>
+</head>
+<body>
+
+<h1>Ejemplos de los 5 Selectores CSS</h1>
+
+<!-- Selector 1: Por etiqueta -->
+<p>Este párrafo es azul porque hay estilos para la etiqueta p</p>
+
+<!-- Selector 2: Por clase -->
+<p class="destacado">Este párrafo tiene fondo amarillo porque tiene class="destacado"</p>
+
+<!-- Selector 3: Por ID -->
+<h2 id="principal">Este título está centrado y rojo porque tiene id="principal"</h2>
+
+<!-- Selector 4: Descendiente -->
+<div>
+    <span>Este texto está verde y subrayado porque es span dentro de div</span>
+</div>
+
+<!-- Selector 5: Hover -->
+<p><a href="#">Pasa el mouse sobre este enlace para ver el efecto hover</a></p>
+
+</body>
+</html>

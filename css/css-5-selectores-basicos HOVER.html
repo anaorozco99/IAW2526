@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>5 Selectores CSS Básicos + Hover en Todo</title>
+<style>
+
+/* ============================================
+   1. SELECTOR POR ETIQUETA
+   Afecta a TODAS las etiquetas <p>
+   ============================================ */
+p {
+    color: blue; /* Color del texto azul */
+    font-size: 16px; /* Tamaño de letra */
+}
+
+/* ============================================
+   2. SELECTOR POR CLASE (con punto .)
+   Afecta solo a elementos con class="destacado"
+   ============================================ */
+.destacado {
+    background-color: yellow; /* Fondo amarillo */
+    font-weight: bold; /* Texto en negrita */
+}
+
+/* ============================================
+   3. SELECTOR POR ID (con #)
+   Afecta solo al elemento con id="principal"
+   ============================================ */
+#principal {
+    text-align: center; /* Texto centrado */
+    color: red; /* Color rojo */
+}
+
+/* ============================================
+   4. SELECTOR DESCENDIENTE
+   Afecta a <span> que están dentro de <div>
+   ============================================ */
+div span {
+    color: green; /* Color verde */
+    text-decoration: underline; /* Subrayado */
+}
+
+/* ============================================
+   5. SELECTOR HOVER (pseudo-clase)
+   ¡Puedes usar :hover en CUALQUIER elemento!
+   ============================================ */
+
+/* Hover en enlaces */
+a:hover {
+    color: orange; /* Cambia a naranja al pasar mouse */
+    font-size: 20px; /* Aumenta tamaño */
+}
+
+/* Hover en párrafos */
+p:hover {
+    background-color: lightblue; /* Fondo azul claro */
+    cursor: pointer; /* Cambia cursor a manita */
+}
+
+/* Hover en divs */
+div:hover {
+    background-color: lightgreen; /* Fondo verde claro */
+    transform: scale(1.05); /* Agranda un 5% */
+}
+
+/* Hover en títulos h2 */
+h2:hover {
+    color: purple; /* Cambia a morado */
+}
+
+/* Hover en imágenes */
+img:hover {
+    opacity: 0.7; /* Se vuelve semi-transparente */
+    border: 3px solid red; /* Añade borde rojo */
+}
+
+/* Hover en botones */
+button:hover {
+    background-color: darkgreen; /* Fondo verde oscuro */
+    color: white; /* Texto blanco */
+}
+
+/* Hover en tablas (filas) */
+table tr:hover {
+    background-color: #f0f0f0; /* Fondo gris claro */
+}
+
+/* Hover en inputs */
+input:hover {
+    border: 2px solid blue; /* Borde azul */
+}
+
+/* Hover por clase */
+.caja:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3); /* Sombra */
+}
+
+/* Estilos adicionales para los ejemplos */
+.caja {
+    background: #f9f9f9;
+    padding: 20px;
+    margin: 10px 0;
+    border: 2px solid #ddd;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 20px 0;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    background: green;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+img {
+    width: 200px;
+}
+
+input {
+    padding: 5px;
+    margin: 10px 0;
+}
+
+</style>
+</head>
+<body>
+
+<h1>:hover se puede usar en CUALQUIER elemento</h1>
+
+<!-- Selector 1: Por etiqueta -->
+<p>Pasa el mouse sobre este párrafo (cambiará el fondo a azul claro)</p>
+
+<!-- Selector 2: Por clase -->
+<p class="destacado">Este párrafo tiene fondo amarillo y también tiene hover</p>
+
+<!-- Selector 3: Por ID -->
+<h2 id="principal">Pasa el mouse sobre este título (cambiará a morado)</h2>
+
+<!-- Selector 4: Descendiente -->
+<div class="caja">
+    <span>Pasa el mouse sobre este DIV completo (fondo verde + sombra)</span>
+</div>
+
+<!-- Selector 5: Hover en enlaces -->
+<p><a href="#">Pasa el mouse sobre este enlace (naranja + grande)</a></p>
+
+<!-- HOVER EN MÁS ELEMENTOS -->
+<h2>Más ejemplos de :hover</h2>
+
+<!-- Hover en botón -->
+<button>Pasa el mouse sobre este botón</button>
+<br><br>
+
+<!-- Hover en imagen -->
+<img src="https://via.placeholder.com/200" alt="Imagen de prueba">
+<p><small>↑ Pasa el mouse sobre la imagen</small></p>
+
+<!-- Hover en tabla -->
+<table>
+    <tr>
+        <th>Nombre</th>
+        <th>Edad</th>
+    </tr>
+    <tr>
+        <td>Juan</td>
+        <td>25</td>
+    </tr>
+    <tr>
+        <td>María</td>
+        <td>30</td>
+    </tr>
+</table>
+<p><small>↑ Pasa el mouse sobre las filas de la tabla</small></p>
+
+<!-- Hover en input -->
+<input type="text" placeholder="Pasa el mouse aquí">
+
+<!-- Hover en caja con clase -->
+<div class="caja">
+    <strong>Pasa el mouse sobre esta caja</strong> (aparecerá sombra)
+</div>
+
+<hr>
+
+<h2>📝 Resumen: ¿Dónde puedo usar :hover?</h2>
+<ul>
+    <li>✅ Enlaces: <code>a:hover { }</code></li>
+    <li>✅ Botones: <code>button:hover { }</code></li>
+    <li>✅ Imágenes: <code>img:hover { }</code></li>
+    <li>✅ Párrafos: <code>p:hover { }</code></li>
+    <li>✅ Divs: <code>div:hover { }</code></li>
+    <li>✅ Tablas: <code>tr:hover { }</code></li>
+    <li>✅ Inputs: <code>input:hover { }</code></li>
+    <li>✅ Clases: <code>.micaja:hover { }</code></li>
+    <li>✅ IDs: <code>#mielemento:hover { }</code></li>
+    <li>✅ Títulos: <code>h1:hover { }, h2:hover { }</code></li>
+    <li><strong>✅ ¡Prácticamente CUALQUIER ELEMENTO!</strong></li>
+</ul>
+
+</body>
+</html>

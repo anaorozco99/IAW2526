@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Formulario de Registro</title>
+</head>
+<body>
+
+<!-- ============================================
+     AQUÍ VA EL CÓDIGO PHP PARA PROCESAR
+     Pon esto AL PRINCIPIO del archivo (antes del <!DOCTYPE>)
+     ============================================ -->
+<?php
+/*
+// 1. CONEXIÓN A LA BASE DE DATOS
+$host = 'localhost';
+$dbname = 'mi_base_datos';
+$username = 'root';
+$password = '';
+
+$conn = new mysqli($host, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Error: " . $conn->connect_error);
+}
+
+$conn->set_charset("utf8mb4");
+
+// 2. PROCESAR FORMULARIO CUANDO SE ENVÍA
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    
+    // Recibir datos del formulario
+    $nombre = $conn->real_escape_string($_POST['nombre']);
+    $email = $conn->real_escape_string($_POST['email']);
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $edad = (int)$_POST['edad'];
+    $fecha_nacimiento = $_POST['fecha_nacimiento'];
+    $pais = $conn->real_escape_string($_POST['pais']);
+    $genero = $_POST['genero'];
+    $intereses = isset($_POST['intereses']) ? implode(',', $_POST['intereses']) : '';
+    $comentarios = $conn->real_escape_string($_POST['comentarios']);
+    $telefono = $conn->real_escape_string($_POST['telefono']);
+    $website = $conn->real_escape_string($_POST['website']);
+    $color = $_POST['color'];
+    $satisfaccion = (int)$_POST['satisfaccion'];
+    
+    // 3. INSERTAR EN LA BASE DE DATOS
+    $sql = "INSERT INTO usuarios (nombre, email, password, edad, fecha_nacimiento, pais, genero, intereses, comentarios, telefono, website, color_favorito, satisfaccion) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sssississsssi", $nombre, $email, $password, $edad, $fecha_nacimiento, $pais, $genero, $intereses, $comentarios, $telefono, $website, $color, $satisfaccion);
+    
+    if ($stmt->execute()) {
+        echo '<p style="color: green; font-weight: bold;">✓ Registro exitoso</p>';
+    } else {
+        echo '<p style="color: red; font-weight: bold;">✗ Error: ' . $stmt->error . '</p>';
+    }
+    
+    $stmt->close();
+}
+
+$conn->close();
+*/
+?>
+<!-- FIN DEL CÓDIGO PHP -->
+
+<h1>Formulario de Registro</h1>
+
+<!-- 
+    action="": Si está vacío, envía al mismo archivo
+    action="procesar.php": Envía a otro archivo PHP
+    method="POST": Envía datos de forma segura (ocultos)
+-->
+<form method="POST" action="">
+    
+    <!-- Campo de texto -->
+    <label for="nombre">Nombre completo:</label>
+    <input type="text" id="nombre" name="nombre" required>
+    <!-- PHP recibe con: $_POST['nombre'] -->
+    <br><br>
+    
+    <!-- Email -->
+    <label for="email">Correo electrónico:</label>
+    <input type="email" id="email" name="email" required>
+    <!-- PHP recibe con: $_POST['email'] -->
+    <br><br>
+    
+    <!-- Password -->
+    <label for="password">Contraseña:</label>
+    <input type="password" id="password" name="password" required>
+    <!-- PHP recibe con: $_POST['password'] -->
+    <!-- IMPORTANTE: Hashear con password_hash() antes de guardar -->
+    <br><br>
+    
+    <!-- Número -->
+    <label for="edad">Edad:</label>
+    <input type="number" id="edad" name="edad" min="18" max="100">
+    <!-- PHP recibe con: $_POST['edad'] -->
+    <br><br>
+    
+    <!-- Fecha -->
+    <label for="fecha_nacimiento">Fecha de nacimiento:</label>
+    <input type="date" id="fecha_nacimiento" name="fecha_nacimiento">
+    <!-- PHP recibe con: $_POST['fecha_nacimiento'] -->
+    <br><br>
+    
+    <!-- Select (desplegable) -->
+    <label for="pais">País:</label>
+    <select id="pais" name="pais">
+        <option value="">Selecciona un país</option>
+        <option value="España">España</option>
+        <option value="México">México</option>
+        <option value="Argentina">Argentina</option>
+        <option value="Colombia">Colombia</option>
+        <option value="Chile">Chile</option>
+    </select>
+    <!-- PHP recibe con: $_POST['pais'] -->
+    <br><br>
+    
+    <!-- Radio buttons (solo se puede elegir una opción) -->
+    <p>Género:</p>
+    <input type="radio" id="masculino" name="genero" value="M">
+    <label for="masculino">Masculino</label>
+    <br>
+    <input type="radio" id="femenino" name="genero" value="F">
+    <label for="femenino">Femenino</label>
+    <br>
+    <input type="radio" id="otro" name="genero" value="O">
+    <label for="otro">Otro</label>
+    <!-- PHP recibe con: $_POST['genero'] (devuelve M, F u O) -->
+    <br><br>
+    
+    <!-- Checkboxes (se pueden elegir varias opciones) -->
+    <p>Intereses:</p>
+    <input type="checkbox" id="deportes" name="intereses[]" value="deportes">
+    <label for="deportes">Deportes</label>
+    <br>
+    <input type="checkbox" id="musica" name="intereses[]" value="musica">
+    <label for="musica">Música</label>
+    <br>
+    <input type="checkbox" id="lectura" name="intereses[]" value="lectura">
+    <label for="lectura">Lectura</label>
+    <br>
+    <input type="checkbox" id="tecnologia" name="intereses[]" value="tecnologia">
+    <label for="tecnologia">Tecnología</label>
+    <!-- PHP recibe con: $_POST['intereses'] (array con valores seleccionados) -->
+    <!-- Ejemplo: ['deportes', 'musica'] -->
+    <!-- Convertir a texto: implode(',', $_POST['intereses']) -->
+    <br><br>
+    
+    <!-- Textarea (área de texto grande) -->
+    <label for="comentarios">Comentarios adicionales:</label>
+    <br>
+    <textarea id="comentarios" name="comentarios" rows="5" cols="40"></textarea>
+    <!-- PHP recibe con: $_POST['comentarios'] -->
+    <br><br>
+    
+    <!-- File upload (subir archivo) -->
+    <label for="archivo">Subir foto de perfil:</label>
+    <input type="file" id="archivo" name="archivo">
+    <!-- PHP recibe con: $_FILES['archivo'] -->
+    <!-- NOTA: Requiere enctype="multipart/form-data" en el <form> -->
+    <br><br>
+    
+    <!-- Teléfono -->
+    <label for="telefono">Teléfono:</label>
+    <input type="tel" id="telefono" name="telefono">
+    <!-- PHP recibe con: $_POST['telefono'] -->
+    <br><br>
+    
+    <!-- URL -->
+    <label for="website">Sitio web:</label>
+    <input type="url" id="website" name="website">
+    <!-- PHP recibe con: $_POST['website'] -->
+    <br><br>
+    
+    <!-- Color -->
+    <label for="color">Color favorito:</label>
+    <input type="color" id="color" name="color">
+    <!-- PHP recibe con: $_POST['color'] (ejemplo: #ff0000) -->
+    <br><br>
+    
+    <!-- Range (deslizador) -->
+    <label for="satisfaccion">Nivel de satisfacción:</label>
+    <input type="range" id="satisfaccion" name="satisfaccion" min="0" max="10">
+    <!-- PHP recibe con: $_POST['satisfaccion'] -->
+    <br><br>
+    
+    <!-- Checkbox de aceptación de términos -->
+    <input type="checkbox" id="terminos" name="terminos" required>
+    <label for="terminos">Acepto los términos y condiciones</label>
+    <!-- PHP recibe con: $_POST['terminos'] (solo si está marcado) -->
+    <br><br>
+    
+    <!-- Botones -->
+    <button type="submit">Enviar Formulario</button>
+    <button type="reset">Limpiar Campos</button>
+    
+</form>
+
+<hr>
+
+<h2>📝 Instrucciones para usar con PHP y MariaDB:</h2>
+
+<h3>1️⃣ Crear la tabla en MariaDB:</h3>
+<pre>
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    email VARCHAR(150) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    edad INT,
+    fecha_nacimiento DATE,
+    pais VARCHAR(50),
+    genero CHAR(1),
+    intereses TEXT,
+    comentarios TEXT,
+    telefono VARCHAR(20),
+    website VARCHAR(200),
+    color_favorito VARCHAR(7),
+    satisfaccion INT,
+    fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+</pre>
+
+<h3>2️⃣ El código PHP va:</h3>
+<ul>
+    <li><strong>OPCIÓN A:</strong> Al principio de ESTE archivo (antes del &lt;!DOCTYPE&gt;)</li>
+    <li><strong>OPCIÓN B:</strong> En un archivo separado llamado <code>procesar.php</code> y cambiar <code>action=""</code> por <code>action="procesar.php"</code></li>
+</ul>
+
+<h3>3️⃣ Cómo recibir datos en PHP:</h3>
+<ul>
+    <li>Texto, email, password, etc: <code>$_POST['nombre_del_campo']</code></li>
+    <li>Checkboxes múltiples: <code>$_POST['intereses']</code> (es un array)</li>
+    <li>Archivos: <code>$_FILES['archivo']</code> (requiere configuración especial)</li>
+</ul>
+
+<h3>4️⃣ Recuerda:</h3>
+<ul>
+    <li>✅ Usa <code>$conn->real_escape_string()</code> o <strong>prepared statements</strong></li>
+    <li>✅ Hashea contraseñas con <code>password_hash()</code></li>
+    <li>✅ Valida los datos antes de insertarlos</li>
+</ul>
+
+</body>
+</html>
