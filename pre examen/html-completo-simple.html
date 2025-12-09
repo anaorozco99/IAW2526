@@ -1,0 +1,388 @@
+<!DOCTYPE html> <!-- Declaración del tipo de documento HTML5 -->
+<html lang="es"> <!-- Etiqueta raíz, lang="es" indica idioma español -->
+<head>
+    <!-- HEAD: Información que no se ve en la página pero es importante -->
+    <meta charset="UTF-8"> <!-- Codificación de caracteres (permite tildes, ñ, etc.) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Hace la página responsive en móviles -->
+    <meta name="description" content="Página de ejemplo con todos los elementos HTML"> <!-- Descripción para buscadores -->
+    <meta name="keywords" content="HTML, tutorial, ejemplo"> <!-- Palabras clave para SEO -->
+    <meta name="author" content="Tu Nombre"> <!-- Autor de la página -->
+    <title>HTML Completo - Todos los Elementos</title> <!-- Título que aparece en la pestaña del navegador -->
+    
+    <style>
+        /* Estilos básicos para que se vea mejor */
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 1000px; 
+            margin: 0 auto; 
+            padding: 20px;
+            line-height: 1.6;
+        }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #007bff; color: white; }
+        .seccion { background: #f9f9f9; padding: 15px; margin: 20px 0; border-left: 4px solid #007bff; }
+    </style>
+</head>
+<body>
+    <!-- BODY: Todo lo que aparece en la página -->
+
+    <!-- ==================== ENCABEZADOS ==================== -->
+    <div class="seccion">
+        <h1>Encabezado nivel 1 (H1) - El más importante</h1>
+        <h2>Encabezado nivel 2 (H2)</h2>
+        <h3>Encabezado nivel 3 (H3)</h3>
+        <h4>Encabezado nivel 4 (H4)</h4>
+        <h5>Encabezado nivel 5 (H5)</h5>
+        <h6>Encabezado nivel 6 (H6) - El más pequeño</h6>
+    </div>
+
+    <!-- ==================== PÁRRAFOS Y TEXTO ==================== -->
+    <div class="seccion">
+        <h2>Párrafos y Formato de Texto</h2>
+        
+        <!-- Párrafo normal -->
+        <p>Esto es un párrafo normal. Los párrafos se usan para escribir texto.</p>
+        
+        <!-- Texto con formato -->
+        <p>
+            Puedes poner texto en <strong>negrita (strong)</strong> o <b>negrita (b)</b>.
+            <br> <!-- Salto de línea -->
+            También en <em>cursiva (em)</em> o <i>cursiva (i)</i>.
+            <br>
+            Texto <u>subrayado</u>, <mark>marcado/resaltado</mark>, 
+            <small>pequeño</small>, <del>tachado</del>, 
+            <ins>insertado</ins>, <sub>subíndice</sub> y <sup>superíndice</sup>.
+        </p>
+
+        <!-- Línea horizontal -->
+        <hr> <!-- Línea divisoria -->
+
+        <!-- Citas -->
+        <blockquote>
+            Esto es una cita en bloque (blockquote). Se usa para citar texto largo.
+        </blockquote>
+
+        <p>Esta es una <q>cita corta en línea</q> dentro de un párrafo.</p>
+
+        <!-- Código -->
+        <p>Para mostrar código: <code>let x = 10;</code></p>
+        
+        <!-- Bloque de código preformateado -->
+        <pre>
+function saludar() {
+    console.log("Hola mundo");
+}
+        </pre>
+    </div>
+
+    <!-- ==================== LISTAS ==================== -->
+    <div class="seccion">
+        <h2>Listas</h2>
+
+        <!-- Lista desordenada (con bullets) -->
+        <h3>Lista No Ordenada (ul)</h3>
+        <ul>
+            <li>Elemento 1</li> <!-- li = list item -->
+            <li>Elemento 2</li>
+            <li>Elemento 3
+                <!-- Lista anidada -->
+                <ul>
+                    <li>Sub-elemento 1</li>
+                    <li>Sub-elemento 2</li>
+                </ul>
+            </li>
+        </ul>
+
+        <!-- Lista ordenada (con números) -->
+        <h3>Lista Ordenada (ol)</h3>
+        <ol>
+            <li>Primer elemento</li>
+            <li>Segundo elemento</li>
+            <li>Tercer elemento</li>
+        </ol>
+
+        <!-- Lista de definiciones -->
+        <h3>Lista de Definiciones (dl)</h3>
+        <dl>
+            <dt>HTML</dt> <!-- dt = término -->
+            <dd>Lenguaje de marcado para crear páginas web</dd> <!-- dd = definición -->
+            <dt>CSS</dt>
+            <dd>Lenguaje para dar estilo a páginas web</dd>
+        </dl>
+    </div>
+
+    <!-- ==================== ENLACES ==================== -->
+    <div class="seccion">
+        <h2>Enlaces (Links)</h2>
+        
+        <a href="https://www.google.com">Enlace a Google (abre en misma pestaña)</a><br>
+        <a href="https://www.google.com" target="_blank">Enlace a Google (abre en nueva pestaña)</a><br>
+        <a href="mailto:correo@ejemplo.com">Enviar email</a><br>
+        <a href="tel:+34123456789">Llamar por teléfono</a><br>
+        <a href="#seccion-tablas">Enlace interno a otra sección de esta página</a><br>
+        <a href="pagina.html">Enlace a otra página del sitio</a>
+    </div>
+
+    <!-- ==================== IMÁGENES ==================== -->
+    <div class="seccion">
+        <h2>Imágenes</h2>
+        
+        <!-- src = fuente/ruta de la imagen, alt = texto alternativo -->
+        <img src="https://via.placeholder.com/300x200" alt="Imagen de ejemplo" width="300">
+        
+        <p><small>Nota: 'alt' es importante para accesibilidad y SEO</small></p>
+    </div>
+
+    <!-- ==================== TABLAS ==================== -->
+    <div class="seccion" id="seccion-tablas">
+        <h2>Tablas</h2>
+        
+        <table>
+            <caption>Ejemplo de Tabla</caption> <!-- Título de la tabla -->
+            <thead> <!-- Encabezado de la tabla -->
+                <tr> <!-- tr = table row (fila) -->
+                    <th>Nombre</th> <!-- th = table header (encabezado) -->
+                    <th>Edad</th>
+                    <th>Ciudad</th>
+                </tr>
+            </thead>
+            <tbody> <!-- Cuerpo de la tabla -->
+                <tr>
+                    <td>Juan</td> <!-- td = table data (celda) -->
+                    <td>25</td>
+                    <td>Madrid</td>
+                </tr>
+                <tr>
+                    <td>María</td>
+                    <td>30</td>
+                    <td>Barcelona</td>
+                </tr>
+                <tr>
+                    <td>Carlos</td>
+                    <td>28</td>
+                    <td>Valencia</td>
+                </tr>
+            </tbody>
+            <tfoot> <!-- Pie de tabla (opcional) -->
+                <tr>
+                    <td colspan="3">Total: 3 personas</td> <!-- colspan une columnas -->
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <!-- ==================== FORMULARIOS ==================== -->
+    <div class="seccion">
+        <h2>Formularios</h2>
+        
+        <!-- method="POST" envía datos ocultos, action es donde se procesan -->
+        <form method="POST" action="procesar.php">
+            
+            <!-- Campo de texto -->
+            <label for="nombre">Nombre:</label> <!-- label asocia texto con input -->
+            <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
+            <!-- required = campo obligatorio -->
+            <br><br>
+
+            <!-- Email -->
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="tu@email.com" required>
+            <br><br>
+
+            <!-- Password -->
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" required>
+            <br><br>
+
+            <!-- Número -->
+            <label for="edad">Edad:</label>
+            <input type="number" id="edad" name="edad" min="18" max="100">
+            <br><br>
+
+            <!-- Fecha -->
+            <label for="fecha">Fecha de nacimiento:</label>
+            <input type="date" id="fecha" name="fecha">
+            <br><br>
+
+            <!-- Select (desplegable) -->
+            <label for="pais">País:</label>
+            <select id="pais" name="pais">
+                <option value="">Selecciona un país</option>
+                <option value="es">España</option>
+                <option value="mx">México</option>
+                <option value="ar">Argentina</option>
+            </select>
+            <br><br>
+
+            <!-- Radio buttons (solo una opción) -->
+            <p>Género:</p>
+            <input type="radio" id="masculino" name="genero" value="M">
+            <label for="masculino">Masculino</label>
+            
+            <input type="radio" id="femenino" name="genero" value="F">
+            <label for="femenino">Femenino</label>
+            
+            <input type="radio" id="otro" name="genero" value="O">
+            <label for="otro">Otro</label>
+            <br><br>
+
+            <!-- Checkboxes (múltiples opciones) -->
+            <p>Intereses:</p>
+            <input type="checkbox" id="deportes" name="intereses[]" value="deportes">
+            <label for="deportes">Deportes</label>
+            
+            <input type="checkbox" id="musica" name="intereses[]" value="musica">
+            <label for="musica">Música</label>
+            
+            <input type="checkbox" id="lectura" name="intereses[]" value="lectura">
+            <label for="lectura">Lectura</label>
+            <br><br>
+
+            <!-- Textarea (área de texto) -->
+            <label for="comentarios">Comentarios:</label><br>
+            <textarea id="comentarios" name="comentarios" rows="4" cols="50" placeholder="Escribe aquí..."></textarea>
+            <br><br>
+
+            <!-- File upload -->
+            <label for="archivo">Subir archivo:</label>
+            <input type="file" id="archivo" name="archivo">
+            <br><br>
+
+            <!-- Range (deslizador) -->
+            <label for="volumen">Volumen:</label>
+            <input type="range" id="volumen" name="volumen" min="0" max="100">
+            <br><br>
+
+            <!-- Color picker -->
+            <label for="color">Color favorito:</label>
+            <input type="color" id="color" name="color">
+            <br><br>
+
+            <!-- Botones -->
+            <button type="submit">Enviar Formulario</button>
+            <button type="reset">Limpiar</button>
+            <input type="submit" value="Enviar (input)">
+            <input type="button" value="Botón normal" onclick="alert('Hola!')">
+        </form>
+    </div>
+
+    <!-- ==================== MULTIMEDIA ==================== -->
+    <div class="seccion">
+        <h2>Multimedia</h2>
+
+        <!-- Video -->
+        <h3>Video</h3>
+        <video width="400" controls> <!-- controls muestra botones de reproducción -->
+            <source src="video.mp4" type="video/mp4">
+            Tu navegador no soporta video.
+        </video>
+
+        <!-- Audio -->
+        <h3>Audio</h3>
+        <audio controls>
+            <source src="audio.mp3" type="audio/mpeg">
+            Tu navegador no soporta audio.
+        </audio>
+
+        <!-- YouTube embed (iframe) -->
+        <h3>Video de YouTube</h3>
+        <iframe width="560" height="315" 
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+        </iframe>
+    </div>
+
+    <!-- ==================== CONTENEDORES ==================== -->
+    <div class="seccion">
+        <h2>Contenedores y Estructura Semántica</h2>
+
+        <!-- Div: contenedor genérico sin significado -->
+        <div style="background: lightblue; padding: 10px;">
+            Esto es un DIV (contenedor genérico)
+        </div>
+        <br>
+
+        <!-- Span: contenedor en línea -->
+        <p>Este es un <span style="color: red;">texto con span</span> dentro de un párrafo.</p>
+
+        <!-- Etiquetas semánticas HTML5 -->
+        <header style="background: lightgray; padding: 10px;">
+            HEADER: Encabezado de la página o sección
+        </header>
+
+        <nav style="background: lightgreen; padding: 10px;">
+            NAV: Navegación principal
+        </nav>
+
+        <main style="background: lightyellow; padding: 10px;">
+            MAIN: Contenido principal de la página
+            
+            <article style="background: lightcoral; padding: 10px; margin: 10px 0;">
+                ARTICLE: Contenido independiente (artículo, post)
+            </article>
+
+            <section style="background: lightpink; padding: 10px; margin: 10px 0;">
+                SECTION: Sección temática del contenido
+            </section>
+
+            <aside style="background: lightcyan; padding: 10px; margin: 10px 0;">
+                ASIDE: Contenido relacionado (sidebar)
+            </aside>
+        </main>
+
+        <footer style="background: lightgray; padding: 10px;">
+            FOOTER: Pie de página
+        </footer>
+    </div>
+
+    <!-- ==================== OTROS ELEMENTOS ==================== -->
+    <div class="seccion">
+        <h2>Otros Elementos Útiles</h2>
+
+        <!-- Details/Summary (acordeón) -->
+        <details>
+            <summary>Haz clic aquí para ver más información</summary>
+            <p>Este contenido está oculto hasta que haces clic en el summary.</p>
+        </details>
+        <br>
+
+        <!-- Progress bar -->
+        <label for="progreso">Progreso:</label>
+        <progress id="progreso" value="70" max="100">70%</progress>
+        <br><br>
+
+        <!-- Meter -->
+        <label for="espacio">Espacio en disco:</label>
+        <meter id="espacio" value="0.6" min="0" max="1">60%</meter>
+        <br><br>
+
+        <!-- Button con evento JavaScript -->
+        <button onclick="alert('¡Hola desde JavaScript!')">Haz clic aquí</button>
+    </div>
+
+    <!-- ==================== CARACTERES ESPECIALES ==================== -->
+    <div class="seccion">
+        <h2>Caracteres Especiales (Entidades HTML)</h2>
+        <p>
+            &lt; = menor que<br>
+            &gt; = mayor que<br>
+            &amp; = ampersand<br>
+            &quot; = comillas<br>
+            &apos; = apóstrofe<br>
+            &nbsp; = espacio en blanco<br>
+            &copy; = copyright<br>
+            &reg; = registrado<br>
+            &euro; = euro<br>
+            &cent; = centavo<br>
+            &#128512; = emoji 😀
+        </p>
+    </div>
+
+    <!-- Comentario en HTML: esto no se ve en la página -->
+    <!-- Los comentarios son útiles para dejar notas en el código -->
+
+</body>
+</html>
