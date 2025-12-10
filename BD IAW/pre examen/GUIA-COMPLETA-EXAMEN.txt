@@ -1,0 +1,620 @@
+================================================================================
+    GUÍA COMPLETA - PHP + MariaDB - EXAMEN
+================================================================================
+
+📚 ÍNDICE:
+1. Estructura de archivos
+2. Qué hace cada archivo
+3. Cómo están conectados entre sí
+4. Cómo usar el sistema
+5. Qué cambiar según la tabla que te pidan
+6. Tips y errores comunes
+7. Checklist del examen
+8. Respirar y mantener la calma
+
+================================================================================
+1️⃣ ESTRUCTURA DE ARCHIVOS - QUÉ NECESITAS
+================================================================================
+
+📁 Tu carpeta debe tener TODOS estos archivos:
+
+MENÚ PRINCIPAL:
+---------------
+✓ index-simple.html          → Página de inicio con botones
+
+CONEXIÓN (COMÚN A TODOS):
+--------------------------
+✓ DatabaseService.php        → Conecta con la base de datos
+
+SELECT (CONSULTAR):
+-------------------
+✓ select-productos.php       → Muestra todos los productos en tabla
+✓ select-join-avanzado.php   → Consultas con JOIN (2 o más tablas)
+
+INSERT (INSERTAR):
+------------------
+✓ insert-producto.html       → Formulario para insertar
+✓ action-insert-producto.php → Procesa el formulario e inserta en BD
+
+DELETE (BORRAR):
+----------------
+OPCIÓN 1 - TODO EN UNO (recomendada):
+✓ delete-producto.php        → Muestra lista + borra (todo en uno)
+
+OPCIÓN 2 - SEPARADO (como ejemplos del profesor):
+✓ delete-producto.php        → Muestra lista con botones borrar
+✓ action-delete-producto.php → Ejecuta el DELETE
+
+(Elige una de las 2 opciones, tienes ambas versiones disponibles)
+
+UPDATE (MODIFICAR):
+-------------------
+✓ index.php                  → Muestra lista con botón "Modificar"
+✓ update-producto.php        → Formulario pre-rellenado
+✓ action-update-producto.php → Ejecuta el UPDATE
+
+TOTAL: 10 archivos
+
+================================================================================
+2️⃣ QUÉ HACE CADA ARCHIVO - EXPLICACIÓN DETALLADA
+================================================================================
+
+📄 index-simple.html
+--------------------
+→ Es el MENÚ PRINCIPAL
+→ Tiene 5 botones que te llevan a cada operación
+→ Es tu punto de partida
+→ NO necesita base de datos, es solo HTML
+CUÁNDO LO USAS: Al empezar, para navegar por el sistema
+
+---
+
+📄 DatabaseService.php
+----------------------
+→ Tiene la configuración de conexión a la base de datos
+→ Contiene: nombre BD, usuario, contraseña, host
+→ Todos los demás archivos PHP lo necesitan
+→ Solo tienes que cambiar el nombre de la BD si te dan otra
+CUÁNDO LO USAS: Lo incluyen automáticamente los otros archivos PHP
+LÍNEA IMPORTANTE:
+    private $db_name = "tienda";  ← Cambiar si te dan otra BD
+
+---
+
+📄 select-productos.php
+-----------------------
+→ OPERACIÓN: SELECT
+→ QUÉ HACE:
+  1. Se conecta a la BD
+  2. Hace: SELECT * FROM productos
+  3. Muestra todos los productos en una tabla HTML
+→ NO necesita formulario, solo consulta y muestra
+→ Es el MÁS SIMPLE de todos
+CUÁNDO LO USAS: Cuando quieres ver todos los productos
+
+---
+
+📄 select-join-avanzado.php
+---------------------------
+→ OPERACIÓN: SELECT con JOIN
+→ QUÉ HACE:
+  1. Une 2 o más tablas relacionadas
+  2. Ejemplo: pedidos + clientes (para ver nombre del cliente en cada pedido)
+  3. Muestra los resultados combinados
+→ Más complejo que un SELECT normal
+→ Usa INNER JOIN, LEFT JOIN, etc.
+CUÁNDO LO USAS: Cuando necesitas datos de varias tablas relacionadas
+EJEMPLO QUERY:
+    SELECT pedidos.id, clientes.nombre
+    FROM pedidos
+    INNER JOIN clientes ON pedidos.cliente_id = clientes.id
+
+---
+
+📄 insert-producto.html
+-----------------------
+→ OPERACIÓN: INSERT - Parte 1 (formulario)
+→ QUÉ HACE:
+  1. Muestra un formulario HTML con campos (nombre, precio, stock)
+  2. Usuario rellena el formulario
+  3. Al pulsar "Insertar", envía datos a action-insert-producto.php
+→ Es HTML puro, NO es PHP
+→ El atributo action="action-insert-producto.php" indica dónde van los datos
+CUÁNDO LO USAS: Cuando quieres insertar un producto nuevo
+
+---
+
+📄 action-insert-producto.php
+-----------------------------
+→ OPERACIÓN: INSERT - Parte 2 (procesa)
+→ QUÉ HACE:
+  1. Recibe los datos del formulario por POST
+  2. Se conecta a la BD
+  3. Hace: INSERT INTO productos (nombre, precio, stock) VALUES (...)
+  4. Muestra mensaje de éxito o error
+→ Este archivo ejecuta realmente el INSERT
+→ Usa prepare() y bindParam() para seguridad (evita SQL injection)
+CUÁNDO LO USAS: Automáticamente cuando envías el formulario
+FLUJO: insert-producto.html → action-insert-producto.php
+
+---
+
+📄 delete-producto.php (VERSIÓN TODO EN UNO - RECOMENDADA)
+-----------------------------------------------------------
+→ OPERACIÓN: DELETE (versión todo en uno)
+→ QUÉ HACE:
+  1. Si recibe POST con ID → Borra ese producto
+  2. Después muestra la lista de productos con botones "Borrar"
+  3. Cada botón envía el ID del producto a este mismo archivo
+→ Un solo archivo hace todo: mostrar lista + borrar
+→ El formulario tiene action="" (vacío) = se envía a sí mismo
+CUÁNDO LO USAS: Cuando quieres borrar productos
+FLUJO:
+  - Usuario entra → Ve lista
+  - Pulsa "Borrar" → Se recarga con POST → Borra → Muestra lista actualizada
+
+---
+
+📄 VERSIÓN ALTERNATIVA: DELETE SEPARADO (2 archivos)
+-----------------------------------------------------
+Si prefieres usar la versión separada, tienes estos 2 archivos:
+
+delete-producto.php
+→ Solo muestra la lista con botones "Borrar"
+→ Cada botón envía el ID a action-delete-producto.php
+→ NO borra, solo muestra
+
+action-delete-producto.php
+→ Recibe el ID por POST
+→ Ejecuta el DELETE en la base de datos
+→ Muestra mensaje de éxito o error
+
+FLUJO VERSION SEPARADA:
+delete-producto.php → action-delete-producto.php
+(muestra lista)        (ejecuta DELETE)
+
+⚠️ IMPORTANTE: Tienes las 2 versiones disponibles
+- Versión TODO EN UNO: 1 archivo (delete-producto.php)
+- Versión SEPARADA: 2 archivos (delete-producto.php + action-delete-producto.php)
+
+Puedes usar cualquiera de las dos en el examen.
+La versión TODO EN UNO es más compacta (1 solo archivo).
+La versión SEPARADA es más parecida a los ejemplos del profesor.
+
+---
+
+📄 index.php
+------------
+→ OPERACIÓN: UPDATE - Parte 1 (lista)
+→ QUÉ HACE:
+  1. Muestra lista de todos los productos
+  2. Cada producto tiene un botón "Modificar"
+  3. Al pulsar "Modificar", envía TODOS los datos a update-producto.php
+→ Envía: id, nombre, precio, stock como campos ocultos (hidden)
+CUÁNDO LO USAS: Cuando quieres modificar un producto (primer paso)
+IMPORTANTE: Envía TODOS los campos porque update-producto.php los necesita
+
+---
+
+📄 update-producto.php
+----------------------
+→ OPERACIÓN: UPDATE - Parte 2 (formulario)
+→ QUÉ HACE:
+  1. Recibe los datos actuales del producto por POST
+  2. Muestra un formulario PRE-RELLENADO con esos datos
+  3. Usuario modifica lo que quiera
+  4. Al pulsar "Modificar", envía datos a action-update-producto.php
+→ El formulario tiene value="<?= $variable ?>" para mostrar valores actuales
+CUÁNDO LO USAS: Después de pulsar "Modificar" en index.php
+IMPORTANTE: Los campos están pre-rellenados con los valores actuales
+
+---
+
+📄 action-update-producto.php
+-----------------------------
+→ OPERACIÓN: UPDATE - Parte 3 (ejecuta)
+→ QUÉ HACE:
+  1. Recibe los datos modificados del formulario
+  2. Se conecta a la BD
+  3. Hace: UPDATE productos SET nombre=..., precio=... WHERE id=...
+  4. Muestra mensaje de éxito o error
+→ Este archivo ejecuta realmente el UPDATE
+→ IMPORTANTE: El ID va en el WHERE, NO en el SET
+CUÁNDO LO USAS: Automáticamente cuando envías el formulario de update-producto.php
+FLUJO: index.php → update-producto.php → action-update-producto.php
+
+================================================================================
+3️⃣ CÓMO ESTÁN CONECTADOS - FLUJO DE CADA OPERACIÓN
+================================================================================
+
+🔷 SELECT (CONSULTAR):
+----------------------
+index-simple.html → select-productos.php
+                    (consulta BD y muestra)
+
+🔷 SELECT con JOIN:
+-------------------
+index-simple.html → select-join-avanzado.php
+                    (consulta con JOIN y muestra)
+
+🔷 INSERT (INSERTAR):
+---------------------
+index-simple.html → insert-producto.html → action-insert-producto.php
+                    (formulario)           (inserta en BD)
+
+🔷 DELETE (BORRAR):
+-------------------
+VERSIÓN TODO EN UNO:
+index-simple.html → delete-producto.php → delete-producto.php
+                    (muestra lista)        (borra y muestra lista)
+                    ↑ Se envía a sí mismo (action="")
+
+VERSIÓN SEPARADA:
+index-simple.html → delete-producto.php → action-delete-producto.php
+                    (muestra lista)        (ejecuta DELETE)
+                    
+(Usa la versión que prefieras)
+
+🔷 UPDATE (MODIFICAR):
+----------------------
+index-simple.html → index.php → update-producto.php → action-update-producto.php
+                    (lista)     (formulario)           (ejecuta UPDATE)
+
+================================================================================
+4️⃣ CÓMO USAR EL SISTEMA - PASO A PASO
+================================================================================
+
+PASO 1: PREPARAR TODO
+----------------------
+1. Copia TODOS los archivos a una carpeta
+2. Asegúrate de que DatabaseService.php tiene la configuración correcta:
+   - $db_name = "tienda" (o el nombre que te den)
+   - $db_user = "usuario"
+   - $db_password = "usuario"
+3. Abre phpMyAdmin o tu gestor de BD
+4. Ejecuta el archivo SQL que te den para crear las tablas
+5. Verifica que las tablas se crearon correctamente
+
+PASO 2: EMPEZAR A USAR
+-----------------------
+1. Abre index-simple.html en tu navegador
+2. Verás 5 botones
+3. Pulsa el botón de la operación que quieras hacer
+
+PARA CONSULTAR PRODUCTOS:
+--------------------------
+1. Pulsa "Consultar productos"
+2. Verás una tabla con todos los productos
+3. Listo (no hay más pasos)
+
+PARA INSERTAR UN PRODUCTO:
+---------------------------
+1. Pulsa "Insertar un producto"
+2. Rellena el formulario (nombre, precio, stock)
+3. Pulsa "Insertar"
+4. Verás un mensaje de éxito con el ID del producto insertado
+
+PARA BORRAR UN PRODUCTO:
+-------------------------
+1. Pulsa "Borrar producto"
+2. Verás una tabla con todos los productos
+3. Cada fila tiene un botón "Borrar"
+4. Pulsa "Borrar" en el producto que quieras eliminar
+5. Confirma la ventana que aparece
+6. Verás un mensaje de éxito y la lista actualizada
+
+PARA MODIFICAR UN PRODUCTO:
+----------------------------
+1. Pulsa "Modificar producto"
+2. Verás una tabla con todos los productos
+3. Cada fila tiene un botón "Modificar"
+4. Pulsa "Modificar" en el producto que quieras cambiar
+5. Verás un formulario con los datos actuales pre-rellenados
+6. Cambia los valores que quieras
+7. Pulsa "Modificar el producto"
+8. Verás un mensaje de éxito con los nuevos valores
+
+PARA CONSULTAS CON JOIN:
+-------------------------
+1. Pulsa "Consultas con JOIN"
+2. Verás varios ejemplos de JOIN entre tablas
+3. Ejemplo 1: Pedidos con nombre del cliente
+4. Ejemplo 2: Pedidos completos (cliente + productos)
+5. Ejemplo 3: Todos los clientes con su número de pedidos
+6. Ejemplo 4: Pedidos filtrados por nombre de cliente
+
+================================================================================
+5️⃣ QUÉ CAMBIAR SEGÚN LA TABLA QUE TE PIDAN
+================================================================================
+
+EN EL EXAMEN TE PUEDEN PEDIR:
+- Productos (lo que ya tienes)
+- Clientes
+- Pedidos
+- Otra tabla diferente
+
+CÓMO ADAPTAR TODO A OTRA TABLA:
+--------------------------------
+
+EJEMPLO: Te piden hacer SELECT de la tabla CLIENTES
+
+PASO 1: Mira la estructura de la tabla
+---------------------------------------
+Necesitas saber qué columnas tiene:
+
+CREATE TABLE clientes (
+    id INT PRIMARY KEY,
+    nombre VARCHAR(100),
+    correo VARCHAR(100),
+    fecha_registro DATE
+);
+
+Columnas: id, nombre, correo, fecha_registro
+
+PASO 2: Adapta select-productos.php
+------------------------------------
+1. Cambia el nombre del archivo a: select-clientes.php
+2. Dentro del archivo, cambia:
+   
+   LÍNEA: $query = "select * from productos";
+   CAMBIO: $query = "select * from clientes";
+   
+   LÍNEA: $productos = $stmt->fetchAll();
+   CAMBIO: $clientes = $stmt->fetchAll();
+   
+   LÍNEA: foreach ($productos as $producto) {
+   CAMBIO: foreach ($clientes as $cliente) {
+   
+   LÍNEA: echo "<th>ID</th><th>Nombre</th><th>Precio</th><th>Stock</th>";
+   CAMBIO: echo "<th>ID</th><th>Nombre</th><th>Correo</th><th>Fecha Registro</th>";
+   
+   LÍNEA: echo "<td>{$producto['precio']}</td>";
+   CAMBIO: echo "<td>{$cliente['correo']}</td>";
+   
+   (Y así con todas las columnas)
+
+PASO 3: Adapta INSERT
+----------------------
+1. Cambia insert-producto.html a insert-cliente.html
+2. Dentro del HTML, cambia los campos del formulario:
+   
+   Para clientes necesitas: nombre, correo
+   (NO precio ni stock)
+   
+   <label>Nombre:</label>
+   <input type="text" name="nombre" required>
+   
+   <label>Correo:</label>
+   <input type="email" name="correo" required>
+
+3. Cambia action-insert-producto.php a action-insert-cliente.php
+4. Dentro del PHP, cambia:
+   
+   LÍNEA: $precio = $_POST["precio"];
+   BORRA: (no existe precio en clientes)
+   
+   LÍNEA: $query = "insert into productos (nombre, precio, stock)...";
+   CAMBIO: $query = "insert into clientes (nombre, correo)...";
+   
+   LÍNEA: $stmt->bindParam(":precio", $precio);
+   BORRA: (no existe precio)
+
+PASO 4: Adapta DELETE
+----------------------
+Igual que SELECT, solo cambias:
+- Nombre de tabla
+- Nombres de variables
+- Columnas que muestras
+
+PASO 5: Adapta UPDATE
+----------------------
+Igual que INSERT, cambias:
+- Nombre de tabla
+- Campos del formulario
+- Columnas en el SET del UPDATE
+
+PASO 6: Actualiza index-simple.html
+------------------------------------
+Cambia los enlaces de los botones:
+select-productos.php → select-clientes.php
+insert-producto.html → insert-cliente.html
+etc.
+
+================================================================================
+6️⃣ TIPS Y ERRORES COMUNES - CÓMO EVITARLOS
+================================================================================
+
+❌ ERROR 1: "Connection failed"
+-------------------------------
+CAUSA: DatabaseService.php mal configurado
+SOLUCIÓN:
+- Verifica el nombre de la BD: $db_name = "tienda"
+- Verifica usuario y contraseña
+- Asegúrate de que la BD existe en phpMyAdmin
+
+❌ ERROR 2: "Table doesn't exist"
+---------------------------------
+CAUSA: La tabla no existe en la BD
+SOLUCIÓN:
+- Ve a phpMyAdmin
+- Ejecuta el SQL que te dieron para crear las tablas
+- Verifica que la tabla se creó correctamente
+
+❌ ERROR 3: "Undefined index"
+-----------------------------
+CAUSA: Intentas acceder a una columna que no existe
+SOLUCIÓN:
+- Verifica que el nombre de la columna es correcto
+- Ejemplo: $producto['precio'] → asegúrate que la columna se llama 'precio'
+
+❌ ERROR 4: INSERT no funciona
+------------------------------
+CAUSA: Número de columnas ≠ número de values ≠ número de bindParam
+SOLUCIÓN:
+Cuenta que coincidan:
+INSERT INTO productos (nombre, precio, stock)  ← 3 columnas
+VALUES (:nombre, :precio, :stock)              ← 3 values
+$stmt->bindParam(":nombre", $nombre);          ← 3 bindParam
+$stmt->bindParam(":precio", $precio);
+$stmt->bindParam(":stock", $stock);
+
+❌ ERROR 5: UPDATE modifica todos los registros
+-----------------------------------------------
+CAUSA: Olvidaste el WHERE
+SOLUCIÓN:
+NUNCA hagas: UPDATE productos SET nombre = 'X'
+SIEMPRE: UPDATE productos SET nombre = 'X' WHERE id = :id
+
+❌ ERROR 6: DELETE borra todo
+-----------------------------
+CAUSA: Olvidaste el WHERE
+SOLUCIÓN:
+NUNCA hagas: DELETE FROM productos
+SIEMPRE: DELETE FROM productos WHERE id = :id
+
+❌ ERROR 7: Formulario aparece vacío en UPDATE
+----------------------------------------------
+CAUSA: Olvidaste poner value="<?= $variable ?>"
+SOLUCIÓN:
+<input type="text" name="nombre" value="<?= $nombre ?>">
+                                  ↑ Esto pre-rellena el campo
+
+❌ ERROR 8: "Call to undefined function"
+----------------------------------------
+CAUSA: Olvidaste incluir DatabaseService.php
+SOLUCIÓN:
+Todos los archivos PHP necesitan al principio:
+include_once 'DatabaseService.php';
+
+❌ ERROR 9: JOIN no funciona
+----------------------------
+CAUSA: Relación incorrecta en el ON
+SOLUCIÓN:
+Usa la FOREIGN KEY correcta:
+INCORRECTO: ON pedidos.id = clientes.id
+CORRECTO: ON pedidos.cliente_id = clientes.id
+              ↑ La columna que relaciona las tablas
+
+❌ ERROR 10: "Too many connections"
+-----------------------------------
+CAUSA: Demasiadas conexiones abiertas
+SOLUCIÓN:
+DatabaseService ya controla esto (usa singleton)
+No te preocupes, no deberías tener este error
+
+================================================================================
+7️⃣ CHECKLIST DEL EXAMEN - ANTES DE EMPEZAR
+================================================================================
+
+☐ 1. Tengo TODOS los archivos en una carpeta
+☐ 2. He ejecutado el SQL que me dieron para crear las tablas
+☐ 3. Las tablas existen en la base de datos (verificado en phpMyAdmin)
+☐ 4. DatabaseService.php tiene el nombre correcto de la BD
+☐ 5. He probado abrir index-simple.html en el navegador
+☐ 6. Los botones me llevan a las páginas correctas
+☐ 7. SELECT funciona (puedo ver los datos)
+☐ 8. Sé qué columnas tiene cada tabla (he mirado el CREATE TABLE)
+☐ 9. Tengo esta guía a mano para consultar
+☐ 10. Respiro hondo y estoy tranquila 😊
+
+DURANTE EL EXAMEN:
+------------------
+☐ 1. Leo el enunciado completo 2 veces
+☐ 2. Identifico qué me piden (SELECT, INSERT, DELETE, UPDATE)
+☐ 3. Identifico qué tabla me piden
+☐ 4. Abro el archivo correspondiente de ejemplo
+☐ 5. Uso "Buscar y Reemplazar" (Ctrl+F) para cambiar nombres
+☐ 6. Verifico las columnas de la tabla
+☐ 7. Cambio las columnas en el código
+☐ 8. Pruebo que funciona
+☐ 9. Guardo con el nombre correcto
+☐ 10. Verifico que todo funciona antes de entregar
+
+================================================================================
+8️⃣ RESPIRAR Y MANTENER LA CALMA
+================================================================================
+
+SI TE AGOBIAS:
+--------------
+1. Para 10 segundos
+2. Respira profundo 3 veces
+3. Lee esta frase: "Solo estoy cambiando nombres de tablas y columnas"
+4. Recuerda: NO estás programando desde cero
+5. Ya tienes todo el código hecho
+6. Solo tienes que cambiar 4-5 cosas específicas
+7. Mira los comentarios en los archivos (todos tienen ← CAMBIAR)
+8. Sigue los comentarios paso a paso
+9. Vas a aprobar ✅
+
+MANTRAS PARA EL EXAMEN:
+-----------------------
+✓ "Solo cambio nombres de tablas"
+✓ "Solo cambio nombres de columnas"
+✓ "Ya tengo todo el código hecho"
+✓ "Los comentarios me guían"
+✓ "Puedo hacerlo"
+
+RECORDATORIOS IMPORTANTES:
+--------------------------
+✓ DatabaseService.php es IGUAL para todos los ejercicios
+✓ Solo cambias el $db_name si te dan otra BD
+✓ Todos los archivos PHP necesitan include_once 'DatabaseService.php'
+✓ SELECT es el más fácil (solo consultar y mostrar)
+✓ INSERT necesita 2 archivos (formulario + action)
+✓ UPDATE necesita 3 archivos (lista + formulario + action)
+✓ DELETE puede ser 1 archivo (todo en uno) o 2 (separado)
+✓ Siempre usa WHERE en UPDATE y DELETE
+✓ Siempre usa prepare() y bindParam() para seguridad
+✓ Cuenta que columnas = values = bindParam en INSERT/UPDATE
+
+================================================================================
+🎯 RESUMEN ULTRA RÁPIDO - LO MÁS IMPORTANTE
+================================================================================
+
+1. Todos los archivos en la misma carpeta ✅
+2. DatabaseService.php configurado correctamente ✅
+3. Tablas creadas en la BD ✅
+4. index-simple.html es tu punto de partida ✅
+5. Para adaptar a otra tabla:
+   - Cambiar nombre de tabla en las queries
+   - Cambiar nombres de variables
+   - Cambiar columnas según la estructura
+6. Siempre usar WHERE en UPDATE y DELETE ✅
+7. Contar que columnas = values = bindParam ✅
+8. Seguir los comentarios ← CAMBIAR en los archivos ✅
+9. Respirar y mantener la calma ✅
+10. VAS A APROBAR ✅✅✅
+
+================================================================================
+📞 SI TIENES DUDAS EN EL EXAMEN
+================================================================================
+
+Pregúntate:
+-----------
+1. ¿Qué operación me piden? (SELECT, INSERT, DELETE, UPDATE)
+2. ¿Qué tabla me piden? (productos, clientes, pedidos, etc.)
+3. ¿Qué columnas tiene esa tabla? (miro el CREATE TABLE)
+4. ¿Qué archivo de ejemplo corresponde?
+5. ¿Qué tengo que cambiar? (miro los comentarios ← CAMBIAR)
+
+Si algo no funciona:
+--------------------
+1. Miro el mensaje de error
+2. Leo esta guía buscando ese error
+3. Verifico que DatabaseService.php está bien
+4. Verifico que la tabla existe
+5. Verifico que los nombres de columnas son correctos
+6. Respiro y lo intento de nuevo
+
+================================================================================
+
+¡MUCHA SUERTE EN EL EXAMEN! 🍀
+VAS A HACERLO GENIAL 💪
+CONFÍA EN TI 🌟
+
+Esta guía estará contigo en el examen.
+Cuando te agobies, ábrela y lee la sección 8️⃣
+
+¡TÚ PUEDES! ❤️
+
+================================================================================

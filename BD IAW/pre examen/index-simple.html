@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión - PHP y MariaDB</title>
+    <link href="https://fonts.googleapis.com/css?family=Mandali&display=swap" rel="stylesheet">
+
+    <style>
+        .content {
+            width: 100%;
+            background-color: #2c5aa0;
+            padding: 40px;
+            color: white;
+            text-align: center;
+        }
+
+        body {
+            font-family: 'Mandali', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+        
+        h1 {
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+        
+        .contenedor-botones {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        button {
+            background-color: white;
+            color: #2c5aa0;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-family: 'Mandali', sans-serif;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        button:hover {
+            background-color: #f0f0f0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+
+<body>
+  <div class="content">
+    <h1>Sistema de Gestión de Productos</h1>
+    
+    <div class="contenedor-botones">
+      <button type="button" onclick="window.location.href='select-productos.php'">Consultar productos</button>
+      
+      <button type="button" onclick="window.location.href='insert-producto.html'">Insertar un producto</button>
+      
+      <button type="button" onclick="window.location.href='delete-producto.php'">Borrar producto</button>
+      
+      <button type="button" onclick="window.location.href='index.php'">Modificar producto</button>
+      
+      <button type="button" onclick="window.location.href='select-join-avanzado.php'">Consultas con JOIN</button>
+    </div>
+  </div>
+
+</body>
+</html>
+
+<!--
+========================================
+📋 VERSIÓN SUPER SIMPLE
+========================================
+
+Este diseño es como el de tu imagen:
+- Fondo azul simple
+- Título blanco centrado
+- Botones blancos en fila
+- Sin efectos complicados
+
+========================================
+⚠️ PARA CAMBIAR DE PRODUCTOS A OTRA TABLA
+========================================
+
+Si en el examen te piden CLIENTES en vez de PRODUCTOS:
+
+1. Cambiar el título:
+   <h1>Sistema de Gestión de Clientes</h1>
+
+2. Cambiar los enlaces de los botones:
+   select-productos.php → select-clientes.php
+   insert-producto.html → insert-cliente.html
+   delete-producto.php → delete-cliente.php
+   index.php (queda igual, es el UPDATE)
+
+3. Cambiar el texto de los botones:
+   "productos" → "clientes"
+
+========================================
+🎨 PARA CAMBIAR EL COLOR
+========================================
+
+El color azul está aquí:
+background-color: #2c5aa0;
+
+Puedes cambiarlo por:
+- Rojo: #8B0000
+- Verde: #2d6a4f
+- Morado: #5a189a
+- Naranja: #d85d00
+
+========================================
+📁 ESTRUCTURA DE ARCHIVOS NECESARIA
+========================================
+
+En la MISMA carpeta necesitas:
+
+index.html (ESTE ARCHIVO)
+DatabaseService.php
+select-productos.php
+select-join-avanzado.php
+insert-producto.html
+action-insert-producto.php
+delete-producto.php
+index.php (del UPDATE)
+update-producto.php
+action-update-producto.php
+
+¡LISTO! ✅
+-->

@@ -1,0 +1,35 @@
+CADA CARPETA TENDRÁ:
+
+
+SELECT-productos/
+DatabaseService.php
+select-productos.php (con comentarios)
+
+
+INSERT-productos/
+DatabaseService.php
+insert-producto.html (con comentarios)
+action-insert-producto.php (con comentarios)
+
+
+DELETE-productos/
+DatabaseService.php
+delete-producto.php (todo en uno, con comentarios)
+
+
+UPDATE-productos/
+DatabaseService.php
+index.php (con comentarios)
+update-producto.php (con comentarios)
+action-update-producto.php (con comentarios)
+
+
+✅ CÓMO LO USARÁS EN EL EXAMEN:
+
+Lees el enunciado: "Haz un SELECT de la tabla pedidos"
+Abres la carpeta SELECT-productos
+Copias los archivos
+Buscas los comentarios // ← CAMBIAR
+Cambias productos por pedidos
+Cambias las columnas según la tabla
+¡Listo!

@@ -1,0 +1,57 @@
+-- Parte de Carlos (Usuario comoquieras2)
+-- permisos:
+GRANT SELECT ON G10Proyecto.Persona TO Carlos;
+GRANT SELECT ON G10Proyecto.Ubica TO Carlos;
+GRANT SELECT ON G10Proyecto.Carroza TO Carlos;
+
+
+
+-- 1. Crea una tabla llamada TGX que contenga nombre y apellido de la persona junto con título
+de la carroza y algún datos mas.
+
+CREATE TABLE TG10 (
+    ID NUMBER(5) PRIMARY KEY,
+    Nombre VARCHAR2(30),
+    Apellido VARCHAR2(20),
+    Titulo_Carroza VARCHAR2(50),
+    Ciudad VARCHAR2(20)
+);
+
+-- Haz que esa tabla tenga un campo que sea clave primaria y añádele datos de la forma
+(1,2,3....) a través de una secuencia
+
+CREATE SEQUENCE TG10_SEQ START WITH 1 INCREMENT BY 1;
+
+-- Insertar datos en TG10 utilizando la secuencia
+INSERT INTO TG10 (ID, Nombre, Apellido, Titulo_Carroza, Ciudad)
+VALUES (TG10_SEQ.NEXTVAL, 'Paco', 'Pérez', 'Carroza Real', 'Madrid');
+INSERT INTO TG10 (ID, Nombre, Apellido, Titulo_Carroza, Ciudad)
+VALUES (TG10_SEQ.NEXTVAL, 'María', 'Ordoñez', 'Carroza Fantasía', 'Sevilla');
+
+-- 2. Realiza 2 consultas que usen group by y having
+-- Consulta 1: Número de personas por ciudad
+SELECT Ubica.Ciudad_Carroza AS Ciudad, COUNT(Persona.Codigo) AS Numero_Personas
+FROM G10Proyecto.Persona, G10Proyecto.Ubica
+WHERE Persona.Codigo = Ubica.Codigo
+GROUP BY Ubica.Ciudad_Carroza
+HAVING COUNT(Persona.Codigo) > 1;
+
+
+-- Consulta 2: Número de carrozas por título
+SELECT Titulo_Carroza, COUNT(*) AS Num_Carrozas
+FROM G10Proyecto.Carroza
+GROUP BY Titulo_Carroza
+HAVING COUNT(*) >= 1;
+
+-- 3. Realiza 2 sentencias que usen update y otras dos que usen delete
+-- Update 1: Cambiar la ciudad de una persona
+UPDATE TG10 SET Ciudad = 'Barcelona' WHERE Nombre = 'Juan';
+
+-- Update 2: Cambiar el título de la carroza
+UPDATE TG10 SET Titulo_Carroza = 'Carroza Mágica' WHERE Ciudad = 'Sevilla';
+
+-- Delete 1: Eliminar un registro por ID
+DELETE FROM TG10 WHERE ID = 1;
+
+-- Delete 2: Eliminar registros con una ciudad específica
+DELETE FROM TG10 WHERE Ciudad = 'Barcelona';

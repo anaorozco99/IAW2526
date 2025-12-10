@@ -1,0 +1,160 @@
+--Parte 1:
+
+Pregunta 1.-
+
+CREATE USER julia
+IDENTIFIED BY amazonas
+DEFAULT TABLESPACE users
+QUOTA UNLIMITED ON personal;
+
+GRANT create session TO julia;
+GRANT create table TO julia;
+GRANT alter any table TO julia;
+
+--Parte 2:
+
+Pregunta 2.-
+
+CREATE TABLE municipio (
+codigo NUMBER(6),
+nombre VARCHAR2(50) NOT NULL,
+poblacion NUMBER(8),
+CONSTRAINT municipio_pk PRIMARY KEY (codigo)
+) TABLESPACE personal;
+
+
+CREATE TABLE vivienda (
+codigo NUMBER(6),
+habitaciones NUMBER(2),
+metros NUMBER(3),
+municipio_cod NUMBER(6),
+CONSTRAINT vivienda_pk PRIMARY KEY (CODIGO),
+CONSTRAINT municipio_vivienda_pk FOREIGN KEY (municipio_cod) REFERENCES municipio(codigo)
+) TABLESPACE personal;
+
+CREATE TABLE persona (
+codigo NUMBER(6),
+nif VARCHAR(9) UNIQUE NOT NULL,
+nombre VARCHAR(20),
+apellidos VARCHAR(70),
+otros VARCHAR2(150),
+cabeza_familia CHAR(1) DEFAULT 'N',
+CONSTRAINT check_cf CHECK (cabeza_familia IN ('S', 'N')),
+CONSTRAINT persona_pk PRIMARY KEY (codigo)
+) TABLESPACE personal;
+
+
+CREATE TABLE propiedad (
+persona_cod NUMBER(6),
+vivienda_cod NUMBER(6),
+CONSTRAINT propiedad_pk PRIMARY KEY (persona_cod, vivienda_cod),
+CONSTRAINT pro_persona_fk FOREIGN KEY (persona_cod) REFERENCES persona(codigo),
+CONSTRAINT pro_vivienda_fk FOREIGN KEY (vivienda_cod) REFERENCES vivienda(codigo)
+) TABLESPACE personal;
+
+
+CREATE TABLE habita (
+persona_cod NUMBER(5) UNIQUE,
+vivienda_cod NUMBER(5),
+CONSTRAINT habita_pk PRIMARY KEY (persona_cod, vivienda_cod),
+CONSTRAINT hab_persona_fk FOREIGN KEY (persona_cod) REFERENCES persona(codigo),
+CONSTRAINT hab_vivienda_fk FOREIGN KEY (vivienda_cod) REFERENCES vivienda(codigo)
+) TABLESPACE personal;
+
+
+
+Pregunta 3.-
+
+ALTER TABLE propiedad
+ADD fecha_adquisicion DATE;
+
+ALTER TABLE propiedad
+ADD CONSTRAINT chk_fecha CHECK (fecha_adquisicion IS NOT NULL);
+
+
+
+Pregunta 4.-
+
+
+
+
+Pregunta 5.-
+
+a)
+
+INSERT INTO municipio (codigo, nombre, poblacion) VALUES (1, 'Alcalá de Guadaíra', 76547);
+INSERT INTO municipio (codigo, nombre, poblacion) VALUES (2, 'Sevilla', 684340);
+
+INSERT INTO vivienda (codigo, habitaciones, metros, municipio_cod) VALUES (100, 3, 90, 1);
+INSERT INTO vivienda (codigo, habitaciones, metros, municipio_cod) VALUES (200, 2, 60, 2);
+
+
+INSERT INTO persona (codigo, nif, nombre, apellidos, otros, cabeza_familia) 
+VALUES (1801, '12345678X', 'Alejandro', 'GARCIA', 'Trabajador Ayuntamiento', 'S');
+INSERT INTO persona (codigo, nif, nombre, apellidos, otros, cabeza_familia) 
+VALUES (1402, '87654321B', 'Maria', 'LOPEZ', 'Autonoma', 'N');
+
+b)
+
+SELECT m.nombre, COUNT(v.codigo) AS num_viviendas
+FROM municipio m, vivienda v
+WHERE m.codigo = v.municipio_cod
+GROUP BY m.nombre;
+
+
+c)
+
+SELECT m.nombre, COUNT(v.codigo) AS num_viviendas
+FROM municipio m, vivienda v
+WHERE m.codigo = v.municipio_cod
+GROUP BY m.nombre;
+HAVING COUNT(v.codigo) < 100;
+
+
+--Parte 3:
+
+Pregunta 6.-
+
+a)
+CREATE USER julio 
+IDENTIFIED BY amazonas;
+
+b)
+GRANT select, update TO Julio;
+
+
+
+Pregunta 7.-
+
+
+a)
+SELECT nombre, apellidos
+FROM persona
+WHERE cabeza_familia = 'S';
+
+
+b)
+
+UPDATE persona
+SET nombre = 'Ana', apellidos = 'Orozco'
+WHERE nombre = 'Maria' AND apellidos = 'LOPEZ';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

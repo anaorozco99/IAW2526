@@ -1,0 +1,63 @@
+--usuario "comoquieras": Ana
+--permisos: los puse algo restrictivos y específicos como nos dijo Rocío
+GRANT ALTER ON G10Proyecto.Reyes TO Ana;
+GRANT INSERT ON G10Proyecto.Reyes TO Ana;
+GRANT SELECT ON G10Proyecto.Reyes TO Ana;
+GRANT SELECT ON G10Proyecto.Carroza TO Ana;
+GRANT CREATE VIEW TO Ana; -- no sé si es necesario
+GRANT SELECT ON G10Proyecto.Persona TO Ana;
+GRANT SELECT ON G10Proyecto.Desfila TO Ana;
+GRANT SELECT ON G10Proyecto.Pasacalle TO Ana;
+GRANT CREATE ANY VIEW TO Ana;
+GRANT SELECT ON Carlos.Persona TO Ana; -- poder seleccionar datos de persona en el esquema de carlos
+
+-- 1. El usuario se ha dado cuenta que el esquema no refleja en cual de las carrozas de la
+cabalgata está sentado cada Rey Mago, ni tampoco los pajes que llevan los reyes. Refleja
+el cambio correspondiente en el esquema para reflejar está informacion. 
+
+ALTER TABLE G10Proyecto.Reyes ADD id_carroza NUMBER(2);
+ALTER TABLE G10Proyecto.Reyes ADD num_Pajes NUMBER(2);
+ALTER TABLE G10Proyecto.Reyes ADD CONSTRAINT fk_reyes_carroza FOREIGN KEY (id_carroza) REFERENCES Carroza(id_Carroza);
+
+
+--1.A. Introduce algunos datos en el esquema anterior 
+INSERT INTO G10Proyecto.Reyes (id_reyes, Nombre, Descripcion, Vestimenta, id_carroza, Num_Pajes)
+VALUES ('R001', 'Baltasar', 'Rey Mago', 'Baltasar', 1, 3);
+INSERT INTO G10Proyecto.Reyes (id_reyes, Nombre, Descripcion, Vestimenta, id_carroza, Num_Pajes)
+VALUES ('R002', 'Gaspar', 'Rey Mago', 'Gaspar', 2, 4);
+INSERT INTO G10Proyecto.Reyes (id_reyes, Nombre, Descripcion, Vestimenta, id_carroza, Num_Pajes)
+VALUES ('R003', 'Melchor', 'Rey Mago, 'Melchor', 3, 5);
+
+-- 2. Crea una vista llamada “VGXreyes” que muestre el nombre de rey, la carroza en la que va
+sentado y el n.o de pajes que tiene.
+
+CREATE VIEW VG10reyes AS
+SELECT R.Nombre , C.Titulo, R.Num_Pajes 
+FROM Reyes R, Carroza C
+WHERE R.id_carroza = C.id_Carroza;
+
+-- 3. Crea otra vista llamada VGXpasacalles que muestre el nombre de las personas que están en
+el pasacalle que se titula “xxx”
+
+
+CREATE VIEW VG10pasacalles AS
+SELECT  P.Nombre,  P.Apellido
+FROM G10Proyecto.Persona P, G10Proyecto.Desfila D, G10Proyecto.Pasacalle PA
+WHERE P.Codigo = D.Codigo
+AND D.id_pas = PA.id_pas
+AND PA.Titulo = 'pasacalles1'; --cambiar nombre 
+
+-- 4. Haz que todos los usuarios del sistema puedan consultar esas vistas. Compruébalo con
+cualquier usuario) 
+
+GRANT SELECT ON VG10reyes TO PUBLIC;
+GRANT SELECT ON VG10pasacalles TO PUBLIC; --No estoy segura si pongo Ana delante de los nombres de las vistas o no porque estoy desde mi esquema 
+
+--5. Crea una vista llamada VGXrepresenta en el esquema de “carlos” que Muestra nif,
+nombre y apellido de la persona que representa a otra persona junto con el nombre y
+apellido de la persona representada.
+
+CREATE VIEW Carlos.VG10representa AS
+SELECT P1.Nif, P1.Nombre, P1.Apellido, P2.Nombre AS , P2.Apellido 
+FROM Persona P1, Persona P2
+WHERE P1.Codigo = P2.Responsable;

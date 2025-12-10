@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insertar Producto</title>
+</head>
+<body>
+    <!--
+    ========================================
+    EJERCICIO INSERT - FORMULARIO HTML
+    ========================================
+    
+    📋 QUÉ HACE ESTE ARCHIVO:
+    - Muestra un formulario para insertar un nuevo registro
+    - Cuando se pulsa "Insertar", envía los datos a action-insert-producto.php
+    
+    ⚠️ QUÉ CAMBIAR SI TE PIDEN OTRA TABLA:
+    1. El nombre del archivo action (action-insert-producto.php → action-insert-cliente.php)
+    2. Los campos del formulario según las columnas de la tabla
+    3. Los labels (etiquetas) de cada campo
+    -->
+    
+    <h2>Formulario para insertar producto</h2>
+    
+    <!-- ⚠️ CAMBIO 1: El atributo action debe apuntar al archivo PHP que procesa -->
+    <!-- Si es clientes: action="action-insert-cliente.php" -->
+    <!-- Si es pedidos: action="action-insert-pedido.php" -->
+    <form method="post" action="action-insert-producto.php">
+        
+        <!-- ========================================
+             CAMPOS DEL FORMULARIO
+             ========================================
+             ⚠️ IMPORTANTE: Los campos deben coincidir con las COLUMNAS de la tabla
+             (excepto el ID que es AUTO_INCREMENT)
+             
+             Para tabla PRODUCTOS:
+             - nombre (VARCHAR)
+             - precio (DECIMAL)
+             - stock (INT)
+             
+             Para tabla CLIENTES:
+             - nombre (VARCHAR)
+             - correo (VARCHAR/EMAIL)
+             
+             Para tabla PEDIDOS:
+             - cliente_id (INT)
+             - fecha_pedido (DATE)
+             - estado (ENUM)
+        -->
+        
+        <!-- ⚠️ Campo 1 -->
+        <label for="nombre">Nombre:</label><br>
+        <input type="text" name="nombre" id="nombre" required><br><br>
+        
+        <!-- ⚠️ Campo 2 -->
+        <!-- Para productos: precio (tipo number con decimales) -->
+        <!-- Para clientes: sería correo (tipo email) -->
+        <label for="precio">Precio:</label><br>
+        <input type="number" step="0.01" name="precio" id="precio" required><br><br>
+        
+        <!-- ⚠️ Campo 3 -->
+        <!-- Para productos: stock (tipo number entero) -->
+        <!-- Para clientes: NO habría este campo -->
+        <label for="stock">Stock:</label><br>
+        <input type="number" name="stock" id="stock" required><br><br>
+        
+        <!-- Botón para enviar el formulario -->
+        <input type="submit" value="Insertar">
+    </form>
+
+    <button type="button" onclick="history.back()">Volver</button>
+</body>
+</html>
+
+<!--
+========================================
+📝 EJEMPLO DE CAMBIOS PARA TABLA CLIENTES
+========================================
+
+Si te piden hacer INSERT en la tabla CLIENTES:
+
+1. Cambiar el action del form:
+   <form method="post" action="action-insert-cliente.php">
+
+2. Cambiar los campos según la tabla clientes (id, nombre, correo, fecha_registro):
+   - No ponemos 'id' porque es AUTO_INCREMENT
+   - No ponemos 'fecha_registro' porque tiene DEFAULT CURRENT_DATE
+   
+   <label for="nombre">Nombre:</label><br>
+   <input type="text" name="nombre" id="nombre" required><br><br>
+   
+   <label for="correo">Correo:</label><br>
+   <input type="email" name="correo" id="correo" required><br><br>
+
+========================================
+📝 EJEMPLO PARA TABLA PEDIDOS
+========================================
+
+Para tabla PEDIDOS (id, cliente_id, fecha_pedido, estado):
+
+<form method="post" action="action-insert-pedido.php">
+    
+    <label for="cliente_id">ID del Cliente:</label><br>
+    <input type="number" name="cliente_id" id="cliente_id" required><br><br>
+    
+    <label for="fecha_pedido">Fecha del Pedido:</label><br>
+    <input type="date" name="fecha_pedido" id="fecha_pedido" required><br><br>
+    
+    <label for="estado">Estado:</label><br>
+    <select name="estado" id="estado" required>
+        <option value="pendiente">Pendiente</option>
+        <option value="enviado">Enviado</option>
+        <option value="entregado">Entregado</option>
+        <option value="cancelado">Cancelado</option>
+    </select><br><br>
+    
+    <input type="submit" value="Insertar">
+</form>
+
+========================================
+🎯 TIPOS DE INPUT SEGÚN EL TIPO DE DATO
+========================================
+
+VARCHAR/TEXT → <input type="text">
+INT → <input type="number">
+DECIMAL → <input type="number" step="0.01">
+DATE → <input type="date">
+EMAIL → <input type="email">
+ENUM → <select> con <option> para cada valor
+
+========================================
+📋 CHECKLIST PARA EL EXAMEN:
+========================================
+
+☐ 1. Miro las columnas de la tabla (sin contar ID ni campos con DEFAULT)
+☐ 2. Cambio el action del form al nombre correcto
+☐ 3. Por cada columna, creo un campo <input> con:
+     - type correcto según el tipo de dato
+     - name igual al nombre de la columna
+     - id igual al name
+     - label descriptivo
+☐ 4. Guardo el archivo como insert-[nombre-tabla].html
+
+¡LISTO! ✅
+-->
