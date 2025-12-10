@@ -1,0 +1,117 @@
+PRACTICA MARIADB - EJERCICIOS
+
+1. ASEGURAR UNA BASE DE DATOS MARIADB RECIÉN INSTALADA
+
+
+Instalamos MariaDB:
+sudo apt install mariadb-server -y
+
+Ejecutamos el script de seguridad:
+sudo mariadb-secure-installation
+
+Respuestas:
+Enter current password for root (enter for none): [Enter]
+Switch to unix_socket authentication? [Y/n]: n
+Change the root password? [Y/n]: Y
+Nueva contraseña: root
+Remove anonymous users? [Y/n]: Y
+Disallow root login remotely? [Y/n]: Y
+Remove test database and access to it? [Y/n]: Y
+Reload privilege tables now? [Y/n]: Y
+
+
+2. COMANDOS BÁSICOS DE GESTIÓN DE BASES DE DATOS
+
+
+Entrar a MariaDB:
+sudo mariadb -u root -p
+
+Ver bases de datos:
+SHOW DATABASES;
+
+Crear base de datos:
+CREATE DATABASE ejemploDB;
+
+Seleccionar base de datos:
+USE ejemploDB;
+
+Ver tablas:
+SHOW TABLES;
+
+Ver estructura de una tabla:
+DESCRIBE nombre_tabla;
+
+Borrar base de datos:
+DROP DATABASE ejemploDB;
+
+Salir:
+EXIT;
+
+3. GESTIÓN DE USUARIOS Y PERMISOS
+
+
+Crear usuario:
+CREATE USER 'usuario1'@'localhost' IDENTIFIED BY '1234';
+
+Permitir conexión desde cualquier IP:
+CREATE USER 'usuario1'@'%' IDENTIFIED BY '1234';
+
+Dar permisos sobre una base de datos:
+GRANT ALL PRIVILEGES ON ejemploDB.* TO 'usuario1'@'localhost';
+
+Quitar permisos:
+REVOKE ALL PRIVILEGES ON ejemploDB.* FROM 'usuario1'@'localhost';
+
+Ver todos los usuarios:
+SELECT User, Host FROM mysql.user;
+
+Borrar usuario:
+DROP USER 'usuario1'@'localhost';
+
+Aplicar cambios:
+FLUSH PRIVILEGES;
+
+
+4. EJECUTAR SCRIPTS SQL DESDE CONSOLA
+
+
+Crear archivo script1.sql:
+SHOW DATABASES;
+
+Crear archivo script2.sql:
+SELECT User, Host FROM mysql.user;
+
+Ejecutarlos:
+sudo mariadb -u root -p < script1.sql
+sudo mariadb -u root -p < script2.sql
+
+
+5. EJECUTAR SENTENCIAS SQL DESDE UN SCRIPT BASH
+
+
+Crear archivo consultas.sh:
+
+#!/bin/bash
+echo "Mostrando bases de datos:"
+mariadb -u root -p'root' -e "SHOW DATABASES;"
+echo "Mostrando usuarios:"
+mariadb -u root -p'root' -e "SELECT User, Host FROM mysql.user;"
+
+Dar permisos de ejecución:
+chmod +x consultas.sh
+
+Ejecutar:
+./consultas.sh
+
+
+RESUMEN FINAL:
+
+Asegurar instalación: sudo mariadb-secure-installation
+Entrar a MariaDB: sudo mariadb -u root -p
+Crear DB: CREATE DATABASE nombre;
+Borrar DB: DROP DATABASE nombre;
+Crear usuario: CREATE USER 'usuario'@'localhost' IDENTIFIED BY 'clave';
+Dar permisos: GRANT ALL PRIVILEGES ON db.* TO 'usuario'@'localhost';
+Quitar permisos: REVOKE ALL PRIVILEGES ON db.* FROM 'usuario'@'localhost';
+Ver usuarios: SELECT User, Host FROM mysql.user;
+Ejecutar script SQL: mariadb -u root -p < archivo.sql

@@ -1,0 +1,105 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: who
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: who
+  template:
+    metadata:
+      labels:
+        app: who
+    spec:
+      containers:
+      - name: who
+        image: bernat13/whoiswho
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "1024Mi"
+            cpu: "500m"
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: anaorozco
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: anaorozco
+  template:
+    metadata:
+      labels:
+        app: anaorozco
+    spec:
+      containers:
+      - name: anaorozco
+        image: anaorozco99/miweb
+        ports:
+        - containerPort: 80
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: who-svc
+spec:
+  selector:
+    app: who
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: ClusterIP
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: anaorozco-svc
+spec:
+  selector:
+    app: anaorozco
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: ClusterIP
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /v1
+        pathType: Prefix
+        backend:
+          service:
+            name: who-svc
+            port:
+              number: 80
+      - path: /v2
+        pathType: Prefix
+        backend:
+          service:
+            name: anaorozco-svc
+            port:
+              number: 80

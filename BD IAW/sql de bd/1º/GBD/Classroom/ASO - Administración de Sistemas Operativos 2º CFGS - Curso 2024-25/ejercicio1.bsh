@@ -1,0 +1,21 @@
+#!/bin/bash
+
+if [ ! -f "$1" ]; then
+    echo "Error: Introduce un archivo válido"
+    exit 1
+fi
+
+palabras=0
+lineas=0
+caracteres=0
+
+#funcion
+while read -r linea; do
+    lineas=$((lineas + 1))
+    palabras=$((palabras + $(echo "$linea" | wc -w)))
+    caracteres=$((caracteres + ${#linea}))
+done < "$1"
+
+echo "Palabras: $palabras"
+echo "Líneas: $lineas"
+echo "Caracteres: $caracteres"

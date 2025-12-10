@@ -1,0 +1,16 @@
+#!/bin/bash
+
+#esta sería para saber si cierto usuario existe
+comprobar=$(cut -d: -f1 /etc/passwd | grep -w '$usuario')
+
+#para hacer este ej necesitamos recorrer el archivo borrar.txt
+read < borrar.txt
+
+#vamos a cambiar caracter # por el espacio.
+while IFS="#" read -r login nombre apellido1 apellido2 grupo repite
+do
+
+if [ -z "$login" ]
+    then
+        continue
+    fi

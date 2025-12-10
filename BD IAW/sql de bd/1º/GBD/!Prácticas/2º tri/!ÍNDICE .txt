@@ -1,0 +1,199 @@
+P1--------------------------------------------------------
+
+create table 
+	constraint
+alter table
+consultas basicas
+drop table
+truncate table
+
+
+P2--------------------------------------------------------
+
+create table
+	constraint
+alter table
+	modify
+	add constraint
+	add
+	drop constraint
+	add constraint check
+	drop column
+select basico
+
+
+P3--------------------------------------------------------
+
+create table 
+	constraint
+		check
+		pk
+		fk
+
+ALTER SESSION SET NLS_DATE_FORMAT='DD/MM/YYYY';
+
+OR 
+order by
+insert into
+commit
+consultas
+
+
+
+P4--------------------------------------------------------
+
+create table
+	constraint 
+		pk
+		not null
+		check
+		fk
+		unique
+ALTER SESSION SET NLS_DATE_FORMAT='DD/MM/YYYY';
+
+insert into
+alter table
+	add
+	drop constraint
+	add constraint
+
+insert into
+commit
+
+
+P5--------------------------------------------------------
+
+select 
+select distinct
+	count
+	max
+	count (distinct..)
+	sum
+	avg
+	min
+		= igual
+		< menor que
+		> mayor que
+		>=
+		between ... and ...
+		= ... or = ...
+		
+where ... and ...
+where ... and not ...
+where ... like ...
+where ... is null
+where ... is not null
+where (.../...) >
+...*10
+...||' '||...
+concat
+
+order by
+
+
+
+Nota: Con as no puedo poner espacios en blanco en el alias de la columna
+
+
+
+P6--------------------------------------------------------
+
+esquema modelo relacional pdf
+
+select
+	where ... and ..
+	where ... between ... and ... group by
+
+combinacion de tablas con select
+
+select distinct -- se puede con () o sin
+
+select ...*4
+
+SELECT * FROM ... ORDER BY ... DESC FETCH FIRST 1 ROW ONLY;
+
+having avg 
+
+subconsulta
+
+
+P7--------------------------------------------------------
+
+combinacion de tablas con select
+select 
+	upper
+	initcap
+	sum
+	minus
+	(+) !!!!!!
+having
+	sum	
+
+
+P8--------------------------------------------------------
+
+group by
+combinacion tablas
+select 	
+	avg
+	sum
+	sum >
+	= ' '
+	
+where  in (' ' , ' ' )	
+having count(distinct..) =
+subconsultas
+' '  or ' ' minus subconsulta
+
+	union
+	union all
+	intersect
+	minus
+	where in (
+	
+
+
+P9--------------------------------------------------------
+
+PARTE1-
+
+unique not null
+check (.. in (' ', ' ')
+
+alter table
+	drop primary key
+	add constraint
+	add columna
+
+
+PARTE2-
+
+variante:
+	UPPER 
+	LOWER
+	INITCAP
+
+combinacion tablas
+between .. and ..
+where .. not in (subconsulta
+minus
+group by
+where ... = ....(+)!!!
+where .. in (subconsulta
+subconsulta(select min(..
+pareja de nombre!!!!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

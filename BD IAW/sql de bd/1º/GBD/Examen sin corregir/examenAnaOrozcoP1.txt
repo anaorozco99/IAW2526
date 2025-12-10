@@ -1,0 +1,39 @@
+rem Apartado A:
+
+CREATE TABLE pedido (
+nif char(9) CONSTRAINT fk_nif REFERENCES tiendas,
+cod_articulo number(3) CONSTRAINT fk_codart REFERENCES articulos,
+fecha_pedido DATE,
+unidades_pedidas number(5),
+CONSTRAINT pk_nifcodfecha PRIMARY KEY (nif, cod_articulo, fecha_pedido)
+);
+
+INSERT INTO pedido VALUES ( '1111-A', 1 , '27/04/2023', 38);
+INSERT INTO pedido VALUES ( '5555-B', 1 , '21/01/2023', 809);
+
+SELECT * FROM pedido;
+
+rem Apartado B:
+
+ALTER TABLE articulos ADD CONSTRAINT valores CHECK (existencias BETWEEN 100 AND 400);
+
+
+ALTER TABLE tiendas DROP COLUMN codpostal;
+SELECT * FROM tiendas;
+
+
+
+
+rem Apartado C:
+
+CREATE TABLE fabricante (
+cod_fab NUMBER(3) CONSTRAINT pk_codfab PRIMARY KEY,
+nombre varchar2(19) UNIQUE NOT NULL,
+pais varchar2(8) CONSTRAINT ck_pais CHECK (pais in( 'España' , 'Portugal')),
+cod_articulo number(3) CONSTRAINT fk_codartfab REFERENCES articulos
+);
+
+
+
+
+

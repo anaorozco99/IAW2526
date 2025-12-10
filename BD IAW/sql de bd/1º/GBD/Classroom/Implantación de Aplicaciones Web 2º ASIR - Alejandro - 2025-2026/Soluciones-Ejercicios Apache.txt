@@ -1,0 +1,430 @@
+Soluciones — Ejercicios Apache
+
+Supuestos: Apache ya instalado (apache2), usuario con sudo. Todos los comandos se ejecutan en la MV Debian 13.
+
+1) Cambiar el puerto por defecto de Apache (3.4)
+
+Objetivo: Cambiar el puerto HTTP (80) por ejemplo a 8080. También recordar el puerto HTTPS (443).
+
+Comandos / pasos:
+
+# Editar configuración global de puertos
+sudo nano /etc/apache2/ports.conf
+
+
+Cambiar o añadir:
+
+Listen 8080
+# (si usas HTTPS)
+# Listen 8443
+
+
+Editar el virtualhost por defecto:
+
+sudo nano /etc/apache2/sites-available/000-default.conf
+
+
+Cambiar <VirtualHost *:80> por:
+
+<VirtualHost *:8080>
+    ...
+</VirtualHost>
+
+
+Reiniciar Apache:
+
+sudo systemctl restart apache2
+
+
+Comprobación:
+
+Desde anfitrión (si usas VirtualBox con reenvío): http://127.0.0.1:8080
+
+Local: curl -I http://localhost:8080
+
+Errores comunes:
+
+Address already in use → puerto en uso por otro servicio.
+
+Olvidar añadir Listen 8080 en ports.conf (entonces Apache no escuchará en ese puerto).
+
+Si tienes firewall (ufw) bloqueará el puerto.
+
+2) Cambiar el directorio por defecto (3.5)
+
+Objetivo: Cambiar DocumentRoot /var/www/html a otra ruta (ej. /var/www/web1) y probar Options Indexes FollowSymLinks.
+
+Pasos:
+
+# Crear nuevo directorio y permisos
+sudo mkdir -p /var/www/web1
+sudo chown -R $USER:www-data /var/www/web1
+sudo chmod -R 755 /var/www/web1
+
+# Crear ficheros que no sean index.html
+echo "<h1>Prueba 1</h1>" | sudo tee /var/www/web1/prueba1.html
+echo "<h1>Prueba 2</h1>" | sudo tee /var/www/web1/prueba2.html
+
+# Editar el sitio
+sudo nano /etc/apache2/sites-available/000-default.conf
+
+
+Dentro del VirtualHost:
+
+DocumentRoot /var/www/web1
+
+<Directory /var/www/web1>
+    Options Indexes FollowSymLinks
+    AllowOverride None
+    Require all granted
+</Directory>
+
+
+Reiniciar:
+
+sudo systemctl reload apache2
+
+
+Probar:
+
+http://127.0.0.1:8080/prueba1.html (o el puerto que uses).
+
+http://127.0.0.1:8080/ → si no hay index.* y Options Indexes está activo, verás listado de ficheros (dir listing).
+
+Errores / notas:
+
+Si no ves el listado, revisar Options y que exista la directiva <Directory> para la ruta.
+
+Require all granted necesario en Apache 2.4+ para permitir acceso.
+
+Permisos del directorio/ficheros (www-data) si obtienes 403 Forbidden.
+
+3) Habilitar / Deshabilitar módulos (3.6)
+
+Comandos:
+
+# Listar módulos cargados
+sudo apache2ctl -M
+
+# Habilitar módulo (ej. rewrite)
+sudo a2enmod rewrite
+
+# Deshabilitar módulo
+sudo a2dismod rewrite
+
+# Reiniciar o recargar
+sudo systemctl restart apache2
+# o
+sudo systemctl reload apache2
+
+
+Comprobación:
+
+sudo apache2ctl -M | grep rewrite para ver si aparece.
+
+Errores comunes:
+
+Habilitar módulo que depende de otra cosa → revisar logs /var/log/apache2/error.log.
+
+Después de a2enmod siempre reiniciar/reload.
+
+4) Configurar DirectoryIndex (3.7)
+
+Objetivo: Indicar orden de ficheros por defecto (ej. index.php primero, luego index.html).
+
+Archivo a editar (ejemplo):
+
+sudo nano /etc/apache2/mods-enabled/dir.conf
+
+
+Editar la línea:
+
+DirectoryIndex index.php index.html index.cgi index.pl index.xhtml index.htm
+
+
+Crear ficheros:
+
+echo "<h1>HTML</h1>" | sudo tee /var/www/web1/index.html
+echo "<?php echo '<h1>PHP</h1>'; ?>" | sudo tee /var/www/web1/index.php
+
+
+Reiniciar y probar:
+
+sudo systemctl reload apache2
+# Accede a http://.../ → debería cargar index.php si PHP funciona
+
+
+Notas:
+
+Si PHP no funciona con FPM/módulo, puede mostrarse el código PHP en vez de ejecutarse (revisar configuración PHP-FPM / mods).
+
+El orden en DirectoryIndex determina cuál se sirve primero.
+
+5) VirtualHost por nombre (3.8.1)
+
+Objetivo: Tener 2 sitios en el mismo Apache diferenciados por ServerName.
+
+Pasos:
+
+Crear dos directorios:
+
+sudo mkdir -p /var/www/sitio1 /var/www/sitio2
+echo "Sitio1" | sudo tee /var/www/sitio1/index.html
+echo "Sitio2" | sudo tee /var/www/sitio2/index.html
+
+
+Crear archivos de configuración:
+
+sudo nano /etc/apache2/sites-available/sitio1.conf
+
+
+Contenido:
+
+<VirtualHost *:80>
+    ServerName sitio1.local
+    DocumentRoot /var/www/sitio1
+    <Directory /var/www/sitio1>
+        Require all granted
+    </Directory>
+</VirtualHost>
+
+
+Y para sitio2:
+
+sudo nano /etc/apache2/sites-available/sitio2.conf
+
+
+Contenido similar con ServerName sitio2.local.
+
+Activar sitios:
+
+sudo a2ensite sitio1.conf
+sudo a2ensite sitio2.conf
+sudo systemctl reload apache2
+
+
+Añadir entradas /etc/hosts (en el anfitrión o en la MV) para pruebas:
+
+# EN TU MAQUINA (anfitrión o MV)
+sudo nano /etc/hosts
+# Añadir:
+127.0.0.1 sitio1.local
+127.0.0.1 sitio2.local
+
+
+Probar:
+
+http://sitio1.local/ y http://sitio2.local/ mostrarán contenidos distintos.
+
+Notas:
+
+ServerName es la parte que diferencia por dominio.
+
+Si ambos usan mismo puerto y mismo ServerName, el primero en cargar será el default.
+
+6) VirtualHost por puerto (3.8.2)
+
+Objetivo: Tener virtualhosts que escuchen en puertos distintos (ej. 8081 y 8082).
+
+Pasos:
+
+Añadir Listen a ports.conf:
+
+sudo nano /etc/apache2/ports.conf
+# Añadir
+Listen 8081
+Listen 8082
+
+
+Crear virtualhosts:
+
+sudo nano /etc/apache2/sites-available/puerto8081.conf
+
+
+Contenido:
+
+<VirtualHost *:8081>
+    DocumentRoot /var/www/puerto8081
+    <Directory /var/www/puerto8081>
+        Require all granted
+    </Directory>
+</VirtualHost>
+
+
+Y análogo para 8082.
+
+Crear directorios, activar sitios y recargar:
+
+sudo mkdir -p /var/www/puerto8081 /var/www/puerto8082
+sudo a2ensite puerto8081.conf
+sudo a2ensite puerto8082.conf
+sudo systemctl reload apache2
+
+
+Probar:
+
+http://127.0.0.1:8081/ y http://127.0.0.1:8082/
+
+Notas:
+
+El puerto se define en <VirtualHost *:PUERTO> y en Listen.
+
+Si olvidas Listen, obtendrás AH00072: make_sock: could not bind to address.
+
+7) Consultar hosts virtuales activos (3.9)
+
+Comando:
+
+sudo apache2ctl -S
+
+
+Salida útil muestra:
+
+VirtualHosts configurados con port y ServerName.
+
+El sitio por defecto.
+
+Rutas a archivos de configuración.
+
+Diferencia entre activos y disponibles:
+
+sites-available/ → configuraciones disponibles.
+
+sites-enabled/ → enlaces activados (activos). a2ensite crea enlaces simbólicos en sites-enabled/.
+
+Comandos para listar:
+
+ls -l /etc/apache2/sites-available
+ls -l /etc/apache2/sites-enabled
+
+8) Comprobar sintaxis de configuración (3.10)
+
+Comando:
+
+sudo apache2ctl configtest
+# o
+sudo apachectl -t
+
+
+Resultado esperado:
+
+Syntax OK si todo bien.
+
+Si hay error: mostrará mensaje con fichero y línea aproximada (ej: AH00526: Syntax error on line 12 of /etc/apache2/sites-enabled/xxx.conf: Invalid command).
+
+Prueba práctica:
+
+Introduce un error intencionado en un VirtualHost (p. ej. escribir mal VirtualHost).
+
+Ejecuta apache2ctl configtest → verás el mensaje y línea.
+
+Corregir y volver a probar.
+
+Errores comunes:
+
+Faltan </VirtualHost> o directivas mal escritas.
+
+Permisos de archivo (por ejemplo, archivo con CRLF o formato incorrecto).
+
+9) Ocultar la versión de Apache (3.11)
+
+Objetivo: Evitar revelar versión en headers y páginas de error.
+
+Editar:
+
+sudo nano /etc/apache2/conf-available/security.conf
+
+
+Asegurarse de:
+
+ServerSignature Off
+ServerTokens Prod
+
+
+ServerTokens Prod muestra sólo Apache en el header en lugar de Apache/2.4.XX (Debian).
+
+ServerSignature Off quita pie de página con versión en páginas de error generadas por Apache.
+
+Activar (si no está):
+
+sudo a2enconf security
+sudo systemctl reload apache2
+
+
+Comprobar:
+
+curl -I http://127.0.0.1:8080
+# Ver cabeceras Server: Apache
+
+
+Notas:
+
+Esto limita información para atacantes, pero no es sustituto de otras medidas de seguridad.
+
+A veces otros módulos (mod_status, phpinfo()) pueden revelar información — revisarlos.
+
+10) Logs de Apache y nivel de detalle (3.12)
+
+Ubicaciones:
+
+/var/log/apache2/access.log → accesos.
+
+/var/log/apache2/error.log → errores.
+
+Cambiar nivel de log:
+
+sudo nano /etc/apache2/apache2.conf
+
+
+Buscar/añadir:
+
+LogLevel warn
+# Niveles: emerg, alert, crit, error, warn, notice, info, debug
+
+
+También se puede ajustar por virtualhost:
+
+<VirtualHost *:80>
+    ...
+    LogLevel debug
+    ErrorLog ${APACHE_LOG_DIR}/sitio1-error.log
+    CustomLog ${APACHE_LOG_DIR}/sitio1-access.log combined
+</VirtualHost>
+
+
+Probar:
+
+Visita páginas existentes → verás entradas en access.log.
+
+Visita páginas inválidas (/noexiste) → verás 404 en access.log y posiblemente en error.log.
+
+Genera errores PHP (ej. <?php undefined_function(); ?>) para ver entradas en error.log.
+
+Comprobación en tiempo real:
+
+sudo tail -f /var/log/apache2/access.log /var/log/apache2/error.log
+
+
+Notas:
+
+LogLevel debug produce mucha información; usar sólo para debugging.
+
+Ficheros de log pueden ocupar espacio — rotación con logrotate (Debian lo gestiona por defecto con /etc/logrotate.d/apache2).
+
+
+
+
+
+Errores y soluciones rápidas (Notas finales)
+
+403 Forbidden: revisar permisos del directorio (chown -R www-data:www-data /ruta) y Require all granted en <Directory>.
+
+404 Not Found: comprobar DocumentRoot y que el fichero exista, revisar DirectoryIndex.
+
+Address already in use / could not bind: puerto ya en uso; cambiar puerto o parar servicio que lo ocupa.
+
+PHP sin interpretar: asegurar php-fpm instalado, habilitar proxy_fcgi y conf a2enconf phpX.Y-fpm y reiniciar Apache.
+
+Cambios no aplican: recargar (systemctl reload) o reiniciar (systemctl restart) Apache; comprobar apache2ctl -S y configtest.
+
+Logs no muestran: revisar ErrorLog/CustomLog y permisos; usar tail -f.

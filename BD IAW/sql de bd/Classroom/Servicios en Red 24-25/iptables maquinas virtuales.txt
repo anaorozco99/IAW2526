@@ -1,0 +1,59 @@
+Servicios instalados: http, ftp, ssh, webmin y mysql
+- Haga NAT para que la lan salga a internet
+- Haga NAT para que la dmz salga a internet
+-Todos los servicios de la lan y de la dmz tienen que ser accesibles
+desde la máquina real. Para ello tienes que abrir distintos puertos en
+el router. Por ejemplo el puerto 80 es para el servidor apache del
+router, el 10080 se redirige al servidor apache del lanserver y el 20080
+se redirige al servidor apache del dmzserver
+- Todos los servicios de la lan tienen que ser accesibles desde la dmz
+- Todos los servicios de la dmz tienen que ser accesibles desde la lan
+- Los servicios del router únicamente deben de ser accesibles desde la lan y desde la dmz
+- El servidor apache del router SI es accesible desde internet
+- El router acepta icmp desde lan y dmz pero hace REJECT desde internet
+
+
+
+Solución en orden:
+
+# Limpiar todas las reglas anteriores.
+iptables -t filter -F
+iptables -t nat -F
+
+# Habilitar IP forward
+echo "1" > /proc/sys/net/ipv4/ip_forward
+
+# Políticas por defecto: denegar todo el tráfico (si fuera bloquear pondríamos DROP)
+iptables -P INPUT REJECT
+iptables -P FORWARD REJECT
+iptables -P OUTPUT REJECT
+
+# NAT para que la LAN y la DMZ salgan a internet
+iptables -t nat -A POSTROUTING -o wan -j MASQUERADE
+iptables -A FORWARD -o wan -j ACCEPT
+
+# Permitir tráfico ICMP desde la LAN y la DMZ, pero REJECT desde internet
+iptables -A INPUT -s 192.168.1.0/24 -p icmp -j ACCEPT  # LAN
+iptables -A INPUT -s 192.168.2.0/24 -p icmp -j ACCEPT  # DMZ
+iptables -A INPUT -p icmp -j REJECT  # Internet
+
+
+# Apache en el router (puerto 80)
+iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 80
+
+# Apache en el lanserver (puerto 10080)
+iptables -t nat -A PREROUTING -p tcp --dport 10080 -j DNAT --to-destination 192.168.1.2:80
+
+# Apache en el dmzserver (puerto 20080)
+iptables -t nat -A PREROUTING -p tcp --dport 20080 -j DNAT --to-destination 192.168.2.2:80
+
+# Permitir acceso a los servicios de la LAN desde la DMZ y viceversa
+iptables -A FORWARD -s 192.168.1.0/24 -d 192.168.2.0/24 -j ACCEPT  
+iptables -A FORWARD -s 192.168.2.0/24 -d 192.168.1.0/24 -j ACCEPT  
+
+# Permitir acceso a los servicios del router únicamente desde la LAN y la DMZ
+iptables -A INPUT -s 192.168.1.0/24 -j ACCEPT  
+iptables -A INPUT -s 192.168.2.0/24 -j ACCEPT  
+
+# Permitir acceso al servidor Apache del router desde internet
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT

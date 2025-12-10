@@ -1,0 +1,32 @@
+#!/bin/bash
+
+function comprobar()
+{
+  cadena=$1
+  inicio=0
+  while (( $inicio < ${#cadena} ))
+  do
+    case ${cadena:$inicio:1} in
+      [0-9]));;
+      *.*)return  ;;
+       -*)return  ;;
+      *) return 0;;
+    esac
+    (( inicio = $inicio + 1 ))
+  done
+  return 1 
+}
+
+correcto=0
+while (( $correcto == 0 ))
+do
+  clear
+  echo -e "Introduce un número: \c"; read numero
+  comprobar $numero
+  correcto=$?
+  if (( $correcto == 0 ))
+  then
+    echo Error: el dato introducido no es numérico. Pulsa una tecla; read pausa
+  fi
+done
+

@@ -1,0 +1,68 @@
+rem Pregunta 1:--
+
+REM SI TIPO FECHA:
+SELECT d.nombre, d.alias, d.fechnac, p.nombre AS PoliciaArresto
+FROM delincuente d, policia p, arrestar a
+WHERE a.cod_pol=p.codigo and a.cod_del=d.codigo and a.fecha_arresto BETWEEN '01/01/2020' AND '31/12/2020'
+
+REM FECHA_ARRESTO SI FUERA TIPO NUMBER
+
+SELECT d.nombre, d.alias, d.fechnac, p.nombre AS PoliciaArresto
+FROM delincuente d, policia p, arrestar a
+WHERE a.cod_pol=p.codigo and a.cod_del=d.codigo and a.fecha_arresto LIKE '%2020'
+
+rem Pregunta 2:--
+
+Select nombre, apellido from policia where codigo  in
+(select codigo from policia where funcion='Inspector');
+
+
+
+
+rem Pregunta 3:--
+
+select p1.nombre, p2.nombre
+from policia p1, policia p2
+where p1.funcion=p2.funcion
+and p1.nombre > p2.nombre
+
+
+
+rem Pregunta 4:--
+
+SELECT * FROM delincuente
+WHERE NumVeces  IN (Select max(NumVeces) from delincuente);
+
+
+
+rem Pregunta 5:--
+select nombre, funcion from policia where codigo in (
+select a.cod_pol
+from arrestar a, policia p
+group by a.cod_pol
+having count(*)>=3);
+
+
+
+rem Pregunta 6:
+
+SELECT nombre, jefe FROM policia;
+
+
+rem Pregunta 7:--
+
+SELECT  d.nombre, d.alias, COUNT(cod_del)
+FROM delincuente d, arrestar a
+where a.cod_del(+)=d.codigo
+GROUP BY d.nombre, d.alias;
+
+rem Pregunta 8:
+
+SELECT * FROM policia
+MINUS
+SELECT a.cod_pol, COUNT(a.cod_pol)
+FROM arrestar a, delincuente d
+where a.cod_pol=d.codigo 
+GROUP BY a.cod_pol
+having count(a.cod_pol)=0;
+

@@ -1,0 +1,195 @@
+/* Ana Orozco */
+
+
+/* Pregunta 0 */
+
+/* a */
+
+CREATE USER alba IDENTIFIED BY alba
+DEFAULT TABLESPACE personal;
+QUOTA 1M ON personal;
+
+
+rem ** le damos permisos
+GRANT CREATE TABLE, CREATE SESSION TO alba;
+
+rem ** añadimos el archivo sql con las tablas
+
+/* b */
+CREATE USER goya IDENTIFIED BY goya
+DEAFULT TABLESPACE personal;
+
+rem ** le damos permisos
+GRANT CREATE SESSION TO goya;
+
+
+/* Pregunta 1 */
+
+rem ** darle permisos
+
+GRANT CREATE ROLE TO goya;
+
+GRANT SELECT ON alba.asigna TO goya;
+GRANT SELECT ON alba.cientifico TO goya;
+GRANT SELECT ON alba.proyecto TO goya;
+
+rem ** al ver la solución veo que me falta "with grant option"
+
+/* Con goya*/
+
+CREATE ROLE rolgoya;
+
+GRANT SELECT ON alba.asigna TO rolgoya;
+GRANT SELECT ON alba.cientifico TO rolgoya;
+GRANT SELECT ON alba.proyecto TO rolgoya;
+
+
+
+rem ** así todos los usuarios de la base de datos puedan acceder al rol y consultar las tablas asociadas
+GRANT rolgoya TO PUBLIC;
+
+rem ** comprobación
+
+SELECT c.apellido FROM cientifico c, asigna a
+WHERE c.nif=a.nif AND
+WHERE a codigo IS NULL;
+
+/* Pregunta 2 */
+
+rem ** damos permisos con ana
+
+GRANT CREATE SYNONYM TO goya;
+GRANT CREATE VIEW TO goya;
+
+GRANT CREATE ANY TABLE TO goya;
+GRANT UPDATE (horas) ON alba.proyecto TO goya;
+
+GRANT DELETE ON alba.asigna TO goya;
+
+
+rem ** creamos los sinónimos
+
+CREATE SYNONYM cien FOR alba.cientifico;
+CREATE SYNONYM proy FOR alba.proyecto;
+CREATE SYNONYM asi FOR alba.asigna;
+
+
+/* a */
+CREATE VIEW vpractica5 (nif, nombre) AS
+SELECT c.nif, c.nombre from cien c, asi a, proy p
+WHERE c.nif=a.nif AND a.codigo=p.codigo AND p.horas>30;
+
+rem ** mirando la solución podría haber puesto DISTINCT 
+
+/* b */
+CREATE TABLE alba.tpractica5 (nombre, apellido, proyectos) AS
+SELECT nombre, apellido, count(codigo) FROM cien c, asi a
+WHERE c.nif=a.nif;
+
+rem ** mirando la solución no puse group by
+
+/* c */
+UPDATE proy SET horas=horas-3
+WHERE codigo IN ( 
+SELECT codigo from asi a, cien c
+WHERE a.nif=c.nif AND UPPER(CIUDAD)='SEVILLA';
+
+
+rem ** poner commit;
+
+/* d */
+DELETE FROM asi WHERE nif=(
+SELECT nif FROM cien WHERE UPPER(NOMBRE)='PEPE' AND UPPER(APELLIDO)='PEREZ')
+AN codigo=(
+SELECT codigo FROM proy WHERE UPPER(NOMBRE)='PROYECTO1');
+
+rem ** poner commit;
+
+
+/* Pregunta 3 */
+
+rem ** permisos (esto no lo sabía)
+
+SELECT privilege, admin_option FOM dba_sys_privs WHERE grantee='julia';
+
+GRANT CREATE SEQUENCE TO julia
+
+/* a */
+
+CREATE TABLE tablita (
+    codigo NUMBER(3) PRIMARY KEY,
+    nombre VARCHAR2(50) );
+
+INSERT INTO tablita (codigo, nombre) VALUES (1, 'Ana');
+INSERT INTO tablita (codigo, nombre) VALUES (2, 'Maria');
+INSERT INTO tablita (codigo, nombre) VALUES (3, 'Carlos');
+INSERT INTO tablita (codigo, nombre) VALUES (4, 'Alejandro');
+INSERT INTO tablita (codigo, nombre) VALUES (5, 'Pedro');
+INSERT INTO tablita (codigo, nombre) VALUES (6, 'Rocio');
+INSERT INTO tablita (codigo, nombre) VALUES (7, 'Aberto');
+INSERT INTO tablita (codigo, nombre) VALUES (8, 'David');
+
+
+/* b */
+
+
+CREATE SEQUENCE SEQJULIA
+START WITH 6
+INCREMENT BY 2
+MINVALUE 4
+MAXVALUE 10
+CYCLE;
+
+rem ** mirando la solución no puse cache
+
+
+/* c */
+
+ALTER TABLE tablita ADD extra NUMBER(2);
+
+
+/* d */
+
+UPDATE tablita
+SET extra = seqjulia.nextval
+WHERE codigo IN (1, 2);
+
+UPDATE tablita
+SET extra = seqjulia.currval
+WHERE codigo = 3;
+
+UPDATE tablita
+SET extra = seqjulia.nextval
+WHERE codigo IN (4, 5);
+
+UPDATE tablita
+SET extra = seqjulia.currval
+WHERE codigo = 6;
+
+UPDATE tablita
+SET extra = seqjulia.nextval
+WHERE codigo IN (7, 8);
+
+
+/* Pregunta 4 */
+
+
+/* a */
+SELECT username, COUNT(*) AS num_sesiones
+FROM v$session
+GROUP BY username;
+
+
+
+/* b: no la hice yo*/
+SELECT CON.TABLE_NAME AS nombre_tabla, C.COLUMN_NAME AS campo_ajeno, CON.R_CONSTRAINT_NAME AS estriccion_referenciada
+FROM USER_CONS_COLUMNS col, USER_CONSTRAINTS cons
+WHERE C.CONSTRAINT_NAME = CON.CONSTRAINT_NAME AND CON.CONSTRAINT_TYPE = 'R'
+ORDER BY  CON.R_CONSTRAINT_NAME;
+
+
+/* c: no la he hecho yo*/
+
+SELECT GRANTEE FROM DBA_SYS_PRIVS WHERE PRIVILEGE = 'CREATE TABLE'
+INTERSECT
+SELECT GRANTEE FROM DBA_SYS_PRIVS WHERE PRIVILEGE = 'CREATE ANY VIEW';

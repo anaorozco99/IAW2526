@@ -1,0 +1,176 @@
+
+REM *************** TABLAS ARTICULOS, TIENDAS, FABRICANTES, PEDIDOS y VENTAS:********
+
+INSERT INTO FABRICANTES VALUES(10,'CALVO', 'ESPAÑA');
+INSERT INTO FABRICANTES VALUES(15,'LU', 'BELGICA');
+INSERT INTO FABRICANTES VALUES(20,'BARILLA', 'ITALIA');
+INSERT INTO FABRICANTES VALUES(25,'GALLO', 'ESPAÑA');
+INSERT INTO FABRICANTES VALUES(30,'PRESIDENT', 'FRANCIA');
+
+
+
+INSERT INTO ARTICULOS VALUES ('Macarrones',20, 1, 'Primera',10,9,120);
+INSERT INTO ARTICULOS VALUES ('Tallarines',20, 2, 'Primera',12,10,100);
+INSERT INTO ARTICULOS VALUES ('Tallarines',20, 1, 'Segunda',9,5,100);
+INSERT INTO ARTICULOS VALUES ('Macarrones',20, 1, 'Tercera',8,5,100);
+INSERT INTO ARTICULOS VALUES ('Atún',10, 3, 'Primera',20,15,220);
+INSERT INTO ARTICULOS VALUES ('Atún',10, 3, 'Segunda',15,10,220);
+INSERT INTO ARTICULOS VALUES ('Atún',10, 3, 'Tercera',10,5,220);
+INSERT INTO ARTICULOS VALUES ('Sardinillas',10, 1,'Primera',25,20,200);
+INSERT INTO ARTICULOS VALUES ('Sardinillas',10, 1, 'Segunda',20,16,200);
+INSERT INTO ARTICULOS VALUES ('Sardinillas',10, 1,'Tercera',15,10,220);
+INSERT INTO ARTICULOS VALUES ('Mejillones',10, 1,'Tercera',9,5,200);
+INSERT INTO ARTICULOS VALUES ('Mejillones',10, 1, 'Primera',20,15,300);
+INSERT INTO ARTICULOS VALUES ('Macarrones',25, 1, 'Primera',9,6,150);
+INSERT INTO ARTICULOS VALUES ('Tallarines',25, 1, 'Primera',10,9,100);
+INSERT INTO ARTICULOS VALUES ('Fideos',25, 1, 'Segunda',7,5,100);
+INSERT INTO ARTICULOS VALUES ('Fideos',25, 1, 'Primera',10,8,100);
+INSERT INTO ARTICULOS VALUES ('Galletas Cuadradas',15, 1, 'Primera',10,8,100);
+INSERT INTO ARTICULOS VALUES ('Galletas Cuadradas',15, 1, 'Segunda',7,5,100);
+INSERT INTO ARTICULOS VALUES ('Galletas Cuadradas',15, 1, 'Tercera',5,4,100);
+INSERT INTO ARTICULOS VALUES ('Barquillos',15, 1, 'Primera',10,8,100);
+INSERT INTO ARTICULOS VALUES ('Barquillos',15, 1, 'Segunda',10,8,100);
+INSERT INTO ARTICULOS VALUES ('Canutillos',15, 2, 'Primera',17,15,110);
+INSERT INTO ARTICULOS VALUES ('Canutillos',15, 2, 'Segunda',12,15,110);
+INSERT INTO ARTICULOS VALUES ('Leche entera',30, 1,'Primera',11,10,300);
+INSERT INTO ARTICULOS VALUES ('Leche desnat.',30, 1,'Primera',12,10,300);
+INSERT INTO ARTICULOS VALUES ('Leche semi.',30, 1,'Primera',13,11,300);
+INSERT INTO ARTICULOS VALUES ('Leche entera',30, 2,'Primera',21,20,300);
+INSERT INTO ARTICULOS VALUES ('Leche desnat.',30, 2,'Primera',22,20,300);
+INSERT INTO ARTICULOS VALUES ('Leche semi.',30, 2,'Primera',23,21,300);
+INSERT INTO ARTICULOS VALUES ('Mantequilla',30, 1,'Primera',51,40,200);
+INSERT INTO ARTICULOS VALUES ('Mantequilla',30, 1,'Segunda',45,34,200);
+
+
+
+INSERT INTO TIENDAS VALUES('1111-A','Almacenes Pérez', 'C/Toledo, 20',
+ 'Siguenza','GUADALAJARA',19104); 
+INSERT INTO TIENDAS VALUES('5555-B','La gacela', 'C/Santander Rios, 45',
+ 'Azuqueca','GUADALAJARA', 19209);
+INSERT INTO TIENDAS VALUES('2222-A','Comestibles Rodolfo', 
+'C/ del Val s/n', 'Alcalá de Henares','MADRID',28804);
+INSERT INTO TIENDAS VALUES('4444-A','La Pasta Gansa', 'C/Alcalá, 2',
+ 'Ajalvir','MADRID', 28765);
+ INSERT INTO TIENDAS VALUES('3333-A','Ultramarinos Montse',
+  'Avda. Pio 10', 'Toledo','TOLEDO',45100);
+INSERT INTO TIENDAS VALUES('4141-B','Todo Toledo',
+ 'C/Avila 24', 'Talavera','TOLEDO',45199);
+
+
+
+ALTER SESSION SET NLS_DATE_FORMAT='DD/MM/YYYY';
+
+INSERT INTO PEDIDOS VALUES ('5555-B','Macarrones',20, 1, 'Primera',
+TO_DATE('18/02/2022'), 30);
+INSERT INTO PEDIDOS VALUES ('5555-B','Atún',10, 3, 'Primera',
+TO_DATE('21/02/2022'), 10);
+INSERT INTO PEDIDOS VALUES ('5555-B','Atún',10, 3, 'Segunda',
+TO_DATE('11/03/2022'), 4);
+INSERT INTO PEDIDOS VALUES ('5555-B','Sardinillas',10, 1, 'Segunda', 
+TO_DATE('11/03/2022'), 10);
+INSERT INTO PEDIDOS VALUES ('5555-B','Macarrones',25, 1, 'Primera',
+TO_DATE('14/04/2022'), 12);
+INSERT INTO PEDIDOS VALUES ('5555-B','Fideos',25, 1, 'Segunda', 
+TO_DATE('18/05/2022'), 24);
+INSERT INTO PEDIDOS VALUES ('5555-B','Fideos',25, 1, 'Segunda', 
+TO_DATE('19/05/2022'), 20);
+INSERT INTO PEDIDOS VALUES ('5555-B','Galletas Cuadradas',
+15, 1, 'Segunda', TO_DATE('20/06/2022'), 15);
+
+INSERT INTO PEDIDOS VALUES ('1111-A','Barquillos',15, 1, 'Primera',
+TO_DATE('20/02/2022'), 10);
+
+INSERT INTO PEDIDOS VALUES ('1111-A','Canutillos',15, 2, 'Segunda',
+TO_DATE('10/04/2022'), 12);
+INSERT INTO PEDIDOS VALUES ('1111-A','Leche semi.',30, 1, 'Primera',
+TO_DATE('24/06/2022'), 5);
+INSERT INTO PEDIDOS VALUES ('1111-A','Leche semi.',30, 2, 'Primera',
+TO_DATE('04/07/2022'), 11);
+INSERT INTO PEDIDOS VALUES ('1111-A','Mantequilla',30, 1, 'Primera', 
+TO_DATE('10/07/2022'), 10);
+
+INSERT INTO PEDIDOS VALUES ('4141-B','Macarrones',20, 1, 'Primera',
+TO_DATE('16/04/2022'), 30);
+INSERT INTO PEDIDOS VALUES ('4141-B','Atún',10, 3, 'Primera',
+TO_DATE('21/06/2022'), 10);
+INSERT INTO PEDIDOS VALUES ('4141-B','Atún',10, 3, 'Segunda',
+TO_DATE('12/08/2022'), 9);
+
+
+INSERT INTO PEDIDOS VALUES ('2222-A','Sardinillas',10, 1,
+ 'Segunda', TO_DATE('12/08/2022'),20);
+INSERT INTO PEDIDOS VALUES ('2222-A','Sardinillas',10, 1, 
+'Tercera', TO_DATE('12/08/2022'),22);
+INSERT INTO PEDIDOS VALUES('2222-A','Mejillones',10,1,
+ 'Primera',SYSDATE,1000);
+
+INSERT INTO PEDIDOS VALUES ('3333-A','Macarrones',25, 1,
+ 'Primera',TO_DATE('10/11/2022'),8);
+INSERT INTO PEDIDOS VALUES ('3333-A','Tallarines',25, 1, 
+'Primera', TO_DATE('12/11/2022'),9);
+ INSERT INTO PEDIDOS VALUES ('3333-A','Fideos',25, 1, 
+'Primera', TO_DATE('15/11/2022'),11);
+ INSERT INTO PEDIDOS VALUES ('3333-A','Galletas Cuadradas',
+15, 1, 'Primera', TO_DATE('20/11/2022'),6);
+INSERT INTO PEDIDOS VALUES ('3333-A','Barquillos',15, 1, 
+'Segunda', TO_DATE('20/11/2022'),40);
+ INSERT INTO PEDIDOS VALUES ('3333-A','Canutillos',15, 2, 
+'Segunda', TO_DATE('20/11/2022'),10);
+
+
+
+
+
+INSERT INTO VENTAS VALUES ('5555-B','Macarrones',20, 1, 'Primera',
+TO_DATE('19/02/2022'), 5);
+INSERT INTO VENTAS VALUES ('5555-B','Atún',10, 3, 'Primera',
+TO_DATE('19/02/2022'), 6);
+INSERT INTO VENTAS VALUES ('5555-B','Atún',10, 3, 'Segunda',
+TO_DATE('20/03/2022'), 15);
+INSERT INTO VENTAS VALUES ('5555-B','Sardinillas',10, 1, 'Segunda', 
+TO_DATE('20/03/2022'), 8);
+INSERT INTO VENTAS VALUES ('5555-B','Macarrones',25, 1, 'Primera',
+TO_DATE('17/04/2022'), 2);
+INSERT INTO VENTAS VALUES ('5555-B','Fideos',25, 1, 'Segunda', 
+TO_DATE('18/05/2022'), 14);
+INSERT INTO VENTAS VALUES ('5555-B','Leche semi.',30, 1, 'Primera',
+TO_DATE('24/06/2022'), 5);
+
+INSERT INTO VENTAS VALUES ('2222-A','Galletas Cuadradas',
+15, 1, 'Segunda', TO_DATE('20/06/2022'), 5);
+INSERT INTO VENTAS VALUES ('2222-A','Barquillos',15, 1, 'Primera',
+TO_DATE('20/02/2022'), 6);
+INSERT INTO VENTAS VALUES ('2222-A','Canutillos',15, 2, 'Segunda',
+TO_DATE('10/06/2022'), 2);
+INSERT INTO VENTAS VALUES ('2222-A','Sardinillas',10, 1,
+ 'Segunda', TO_DATE('15/08/2022'),5);
+INSERT INTO VENTAS VALUES ('2222-A','Sardinillas',10, 1, 
+'Tercera', TO_DATE('15/08/2022'),5);
+
+
+INSERT INTO VENTAS VALUES ('3333-A','Leche semi.',30, 2, 'Primera',
+TO_DATE('06/07/2022'), 11);
+INSERT INTO VENTAS VALUES ('3333-A','Mantequilla',30, 1, 'Primera', 
+TO_DATE('16/07/2022'), 10);
+INSERT INTO VENTAS VALUES ('3333-A','Macarrones',20, 1, 'Primera',
+TO_DATE('26/04/2022'), 30);
+INSERT INTO VENTAS VALUES ('3333-A','Atún',10, 3, 'Primera',
+TO_DATE('26/04/2022'), 10);
+INSERT INTO VENTAS VALUES ('3333-A','Barquillos',15, 1, 
+'Segunda', TO_DATE('25/11/2022'),4);
+ INSERT INTO VENTAS VALUES ('3333-A','Canutillos',15, 2, 
+'Segunda', TO_DATE('25/11/2022'),4);
+
+INSERT INTO VENTAS VALUES ('4141-B','Atún',10, 3, 'Segunda',
+TO_DATE('12/08/2022'), 2);
+
+INSERT INTO VENTAS VALUES ('4141-B','Macarrones',25, 1,
+ 'Primera',TO_DATE('10/11/2022'),2);
+INSERT INTO VENTAS VALUES ('4141-B','Tallarines',25, 1, 
+'Primera', TO_DATE('11/11/2022'),3);
+INSERT INTO VENTAS VALUES ('4141-B','Canutillos',15, 2, 
+'Segunda', TO_DATE('11/11/2022'),8);
+
+commit;
+
+REM *************** FIN *******************************

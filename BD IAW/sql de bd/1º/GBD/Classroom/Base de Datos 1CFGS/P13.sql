@@ -1,0 +1,239 @@
+DROP TABLE UNIVERSIDAD cascade constraints; 
+
+CREATE TABLE UNIVERSIDAD (
+ CODIGO   NUMBER(4) NOT NULL,
+ TIPO  CHAR(1),
+ NOMBRE VARCHAR2(30),
+ DIRECCION VARCHAR2(26),
+ TELEFONO VARCHAR2(10),
+ NUM_PLAZAS NUMBER(4),
+CONSTRAINT PK_UNIVERSIDAD PRIMARY KEY (CODIGO)
+ );
+
+INSERT INTO UNIVERSIDAD VALUES (10,'S','Sevilla', 
+'Avda. Los Molinos 25', '965-887654',538);
+INSERT INTO UNIVERSIDAD VALUES (15,'P','Huelva', 'C/Las Musas s/n',
+'985-112322',250);
+INSERT INTO UNIVERSIDAD VALUES (22,'S', 'Cadiz', 'C/Mina 45',
+'925-443400',300);
+INSERT INTO UNIVERSIDAD VALUES (45,'P', 'Granada', 'C/Granada 5',
+'926-202310',220);
+INSERT INTO UNIVERSIDAD VALUES (50,'S', 'Malaga', 'C/Los Toreros 21',
+'989-406090',310);
+
+DROP TABLE TRABAJADOR cascade constraints; 
+
+CREATE TABLE TRABAJADOR (
+ CODIGO  NUMBER(4),
+ DNI NUMBER(10),
+ NOMBRE VARCHAR2(30),
+ FUNCION VARCHAR2(15),
+ SALARIO NUMBER (10),
+CONSTRAINT PK_TRABAJADOR PRIMARY KEY (DNI),
+CONSTRAINT FK_TRA_UNI FOREIGN KEY (CODIGO) REFERENCES UNIVERSIDAD
+);
+
+INSERT INTO TRABAJADOR VALUES (10,1112345,'Martinez Salas, Fernando',
+'PROFESOR', 2200);
+INSERT INTO TRABAJADOR VALUES (10,4123005,'Bueno Zarco, Elisa', 
+'PROFESOR', 2200);
+INSERT INTO TRABAJADOR VALUES (10,4122025,'Montes Garcia, M.Pilar', 
+'PROFESOR', 2200);
+INSERT INTO TRABAJADOR VALUES (15,1112346,'Rivera Silvestre, Ana',
+'PROFESOR', 2050);
+INSERT INTO TRABAJADOR VALUES (15,9800990, 'Ramos Ruiz, Luis',
+'PROFESOR', 2050);
+INSERT INTO TRABAJADOR VALUES (15,8660990, 'De Lucas Fdez, M.Angel',
+'PROFESOR', 2050);
+
+INSERT INTO TRABAJADOR VALUES (22,7650000, 'Ruiz Lafuente, Manuel',
+'PROFESOR', 2200);
+INSERT INTO TRABAJADOR VALUES (45,43526789, 'Serrano Laguna, Maria',
+'PROFESOR', 2050);
+INSERT INTO TRABAJADOR VALUES (15,41526779, 'Romero Flores, Petra',
+'PROFESOR', 2150);
+
+INSERT INTO TRABAJADOR VALUES (10,4480099,'Ruano Cerezo, Manuel',
+'ADMINISTRATIVO', 1800);
+INSERT INTO TRABAJADOR VALUES (15,1002345,'Albarran Serrano, Alicia',
+'ADMINISTRATIVO', 1800);
+INSERT INTO TRABAJADOR VALUES (15,7002660,'Muñoz Rey, Felicia',
+'ADMINISTRATIVO', 1800);
+INSERT INTO TRABAJADOR VALUES (22,5502678,'Marin Marin, Pedro',
+'ADMINISTRATIVO', 1800);
+INSERT INTO TRABAJADOR VALUES (22,6600980, 'Peinado Gil, Elena',
+'CONSERJE', 1750);
+INSERT INTO TRABAJADOR VALUES (45,4163222, 'Sarro Molina, Carmen',
+'CONSERJE', 1750);
+
+
+DROP TABLE CATEDRATICO cascade constraints; 
+
+CREATE TABLE catedratico (
+ CODIGO   NUMBER(4) NOT NULL,
+ DNI          NUMBER(10),
+ CATEDRA VARCHAR2(16),
+ NPROF NUMBER(2),
+CONSTRAINT PK_CATEDRATICO PRIMARY KEY (DNI),
+CONSTRAINT FK_CAT_TRAB FOREIGN KEY(DNI) REFERENCES TRABAJADOR,
+CONSTRAINT FK_CAT_UNI FOREIGN KEY (CODIGO) REFERENCES UNIVERSIDAD 
+);
+
+
+INSERT INTO CATEDRATICO VALUES (10,1112345,'INFORMATICA', 20);
+INSERT INTO CATEDRATICO VALUES (10,4123005,'MATEMATICA', 25);
+INSERT INTO CATEDRATICO VALUES (10,4122025,'HISTORIA', 15);
+INSERT INTO CATEDRATICO VALUES (15,9800990,'INFORMATICA', 22);
+INSERT INTO CATEDRATICO VALUES (15,1112346,'HISTORIA', 12);
+INSERT INTO CATEDRATICO VALUES (15,8660990,'FILOSOFIA', 21);
+INSERT INTO CATEDRATICO VALUES (22,7650000, 'INFORMATICA', 15);
+INSERT INTO CATEDRATICO VALUES (45,43526789,'INFORMATICA', 10);
+commit;
+
+/*1 Crear una tabla llamada TNoaTrab que contenga todos los datos de las trabajadores
+que esten en una universidad con mas de 200 plazas y con menos de 2 profesores.*/
+
+CREATE TABLE TNoaTrab AS
+SELECT t.*
+FROM trabajador t, universidad u, catedratico c
+WHERE t.codigo = u.codigo 
+AND c.codigo = u.codigo 
+AND num plazas > 200 
+AND u.codigo IN (
+    SELECT codigo
+    FROM catedratico 
+    GROUP BY codigo 
+    HAVING COUNT(*) < 2);
+
+REM ---- CORRECCION:
+
+CREATE TABLE tNoaTrabajador AS
+SELECT * FROM trabajador WHERE codigo IN (
+SELECT codigo FROM universidad WHERE num_plazas>200)
+AND codigo IN (
+SELECT codigo FROM trabajador WHERE funcion='PROFESOR'
+GROUP BY codigo having COUNT(*)<2);
+
+
+/*2 Añade una persona en la Universidad de Huelva con el dni “12345678”, tu nombre, el
+salario y función la misma que la de “Montes García, M.Pilar”*/
+
+INSERT INTO trabajador 
+SELECT DISTINCT u.codigo, 12345678, 'Orozco Asensio, Ana', funcion, salario
+FROM universidad u, trabajador t
+WHERE UPPER(u.nombre) = 'HUELVA' 
+AND (funcion, salario) = (
+    SELECT funcion, salario
+    FROM trabajador
+    WHERE UPPER(nombre) = 'MONTES GARCIA, M.PILAR');
+
+REM ---- CORRECCION:
+
+INSERT INTO trabajador
+SELECT DISTINCT u.codigo, 12345678, 'Nombre', t.funcion, t.salario
+FROM universidad u, trabajador t
+WHERE UPPER(t.nombre)='MONTES GARCIA, M.PILAR'
+AND UPPER(u.nombre)= 'HUELVA';
+
+/*3 Crea una tabla llamada Tsalario que muestre el nombre de la universidad donde
+trabaja, dni, apellido y salario de los trabajadores que tenga un salario comprendido
+entre 180000 y 210000. Los campos de la nueva tabla se han de llamar(dni, apellidos,
+universidad y sueldo).*/
+
+CREATE TABLE Tsalario (dni, apellidos, universidad, sueldo) AS
+SELECT dni, t.nombre, u.nombre, salario
+FROM universidad u, trabajador t
+WHERE u.codigo=t.codigo 
+AND salario BETWEEN 180000 AND 210000;
+
+REM ---- CORRECCION:
+CREATE TABLE tSalario(dni,apellidos,universidad,sueldo) AS
+SELECT dni, t.nombre, u.nombre, salario FROM trabajador t, universidad u
+WHERE t.codigo=u.codigo AND salario BETWEEN 180000 AND 210000;
+
+rem ** aunq el resultado de la consulta es ninguna fila seleccionada se crea una tabla pero sin datos
+
+/*4 Suma al sueldo de los catedraticos 500*/
+
+UPDATE trabajador
+SET salario = salario + 500
+WHERE dni IN (
+    SELECT dni 
+    FROM catedratico);
+
+REM ---- CORRECCION:
+ está perfecta
+
+
+/*5 Cambia las personas que no son profesores y que están en la universidad de Cadiz a
+la Universidad de Malaga*/
+
+UPDATE trabajador
+SET codigo = (
+    SELECT codigo 
+    FROM universidad 
+    WHERE UPPER(nombre) = 'MALAGA')
+WHERE codigo = (
+    SELECT codigo 
+    FROM universidad 
+    WHERE UPPER(nombre) = 'CADIZ') 
+AND funcion <> 'PROFESOR';
+
+REM ---- CORRECCION:
+UPDATE trabajador
+SET codigo = (
+    SELECT codigo 
+    FROM universidad 
+    WHERE UPPER(nombre) = 'MALAGA')
+WHERE funcion != 'PROFESOR'
+AND codigo= (SELECT codigo 
+    FROM universidad 
+    WHERE UPPER(nombre) = 'CADIZ');
+
+/*6 Refleja en el esquema que el profesor De Lucas Fdez, M.Angel ha dejado de ser
+catedrático*/
+
+DELETE catedratico
+WHERE dni = (
+    SELECT dni 
+    FROM trabajador 
+    WHERE UPPER(nombre) = 'DE LUCAS FDEZ, M.ANGEL');
+
+
+REM ---- CORRECCION:
+
+DELETE FROM catedratico
+WHERE dni = (
+    SELECT dni 
+    FROM trabajador 
+    WHERE UPPER(nombre) = 'DE LUCAS FDEZ, M.ANGEL');
+
+/*7 Realiza todas las operaciones necesarias para borrar todos los profesores de la
+universidad de sevilla;*/
+
+DELETE catedratico
+WHERE codigo = (
+SELECT codigo
+FROM universidad 
+WHERE UPPER(nombre) = 'SEVILLA');
+
+DELETE trabajador
+WHERE UPPER(funcion) = 'PROFESOR' 
+AND codigo = (
+SELECT codigo
+FROM universidad 
+WHERE UPPER(nombre) = 'SEVILLA');
+
+REM ---- CORRECCION:
+
+DELETE catedratico WHERE codigo =(
+SELECT codigo FROM universidad WHERE nombre='Sevilla');
+
+DELETE trabajador WHERE codigo=(
+SELECT codigo FROM universidad WHERE nombre='Sevilla')
+AND funcion= 'PROFESOR';
+
+
+
+
+

@@ -1,0 +1,41 @@
+#!/bin/bash
+
+while (( $grupoex != 1 ))
+   do
+      echo -e "Introduzca el nombre del grupo: \c";read grupo
+      comprobacion=$(cut -d: -f1 /etc/group | grep -w $grupo)
+      if [ "$comprobacion" != "" ]
+      then
+        echo "Escoje el dato a visualizar para el grupo '$grupo': "
+        echo "1. GID"
+        echo "2. Usuarios de grupo"
+        echo "3. Salir"
+        echo
+        echo -n "Escoja la opción: "
+        read opcion
+
+ case $opcion in
+    1) echo "GID del grupo '$grupo' es '$gid'"
+    gid=$(cut -d: -f3 /etc/group | grep -w $grupo)
+    sleep 5
+
+    2) echo "Los usuarios que están en el grupo '$grupo' son '$usuario' "
+    usuario=$(cut -d: -f4 /etc/group | grep -w $grupo)
+    sleep 5
+    3) 
+        echo "Saliendo del sistema..."
+        exit 1
+        ;;
+    *)
+        echo "Opción incorrecta - Introduzca 1, 2 o 3"
+        read -p "Presione ENTER para continuar..."
+        ;;
+esac
+      else
+        echo "El grupo '$grupo' no existe"
+      fi
+
+
+
+
+
