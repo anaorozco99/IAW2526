@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insertar Cliente</title>
+</head>
+<body>
+    <h2>Formulario para insertar cliente</h2>
+    <form method="post" action="action-insert-cliente.php">
+        <label for="nombre">Nombre:</label><br>
+        <input type="text" name="nombre" required><br><br>
+
+        <label for="correo">Correo:</label><br>
+        <input type="email" name="correo" required><br><br>
+
+        <input type="submit" value="Insertar">
+    </form>
+
+    <button type="button" onclick="history.back()">Volver</button>
+</body>
+</html>
